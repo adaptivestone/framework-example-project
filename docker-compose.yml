@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  ads-sample:
+    image: node:lts
+    volumes:
+      - ./:/var/www/:delegated
+    working_dir: /var/www
+    ports:
+      - 3300:3300
+
+
+    depends_on:
+      - mongo
+    environment:
+      MONGO_DSN: mongodb://mongo/ads-framework
+    command: "npm run docker"
+
+  mongo:
+    image: mongo:4.0
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - 27018:27017
+
+volumes:
+  mongodata:
+    driver: local

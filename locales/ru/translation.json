@@ -1,0 +1,16 @@
+{
+  "auth": {
+    "passwordProvided": "Нужно ввести пароль",
+    "emailProvided": "Нужно указать Email"
+  },
+  "addEvent":{
+    "categoryProvided": "Нужно выбрать категорию",
+    "titleProvided": "Нужно ввести название события",
+    "descriptionLong": "Описание события слишком длинное",
+    "startEventProvided": "Точка старта указана не верно",
+    "finishEventProvided": "Точка финиша указана не верно",
+    "dayProvided": "Рассписание не составленно",
+    "yachtProvided": "Яхта не выбрана",
+    "priceProvided": "Указана некорректная цена"
+  }
+}

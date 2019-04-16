@@ -1,0 +1,18 @@
+{
+  "auth": {
+    "passwordProvided": "Password must be provided",
+    "emailProvided": "Email must be provided"
+  },
+  "addEvent":{
+    "categoryProvided": "Сategory must be provided",
+    "titleProvided": "Event name not provided",
+    "descriptionLong": "Description is too long",
+    "startEventProvided": "Event start point not provided",
+    "finishEventProvided": "Event finish point not provided",
+    "dayProvided": "Daily schedule not provided",
+    "yachtProvided": "Yacht not provided",
+    "priceProvided": "Incorrect price specified"
+
+
+  }
+}

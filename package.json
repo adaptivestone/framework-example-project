@@ -1,0 +1,30 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./index.js",
+    "test": "jest",
+    "docker": "npm i && npm run dev"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./tests/setup.js"
+    ],
+    "testEnvironment": "node"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ads-framework": "git+https://git@gitlab.com/adaptivestone/framework.git"
+  },
+  "devDependencies": {
+    "jest": "^24.7.1",
+    "mongodb-memory-server": "^4.2.2",
+    "nodemailer-stub": "^1.0.1",
+    "nodemailer-stub-transport": "^1.1.0",
+    "nodemon": "^1.18.11",
+    "supertest": "^4.0.2"
+  }
+}
