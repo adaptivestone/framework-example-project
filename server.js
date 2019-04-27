@@ -8,6 +8,7 @@ let server = new Server({
         controllers: path.resolve("./controllers"),
         views: path.resolve("./views"),
         public: path.resolve("./public"),
+        locales: path.resolve("./locales"),
     }
 });
 
