@@ -20,11 +20,11 @@
     "ads-framework": "git+https://git@gitlab.com/adaptivestone/framework.git"
   },
   "devDependencies": {
-    "jest": "^24.7.1",
-    "mongodb-memory-server": "^4.2.2",
+    "jest": "^24.8.0",
+    "mongodb-memory-server": "^5.1.1",
     "nodemailer-stub": "^1.0.1",
     "nodemailer-stub-transport": "^1.1.0",
-    "nodemon": "^1.18.11",
+    "nodemon": "^1.19.0",
     "supertest": "^4.0.2"
   }
 }
