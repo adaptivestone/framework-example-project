@@ -1,5 +1,6 @@
 "use strict";
 const AbstractModel = require("ads-framework/modules/AbstractModel");
+const Mailer = require('ads-framework/services/messaging').email;
 
 class Person extends AbstractModel {
   //https://mongoosejs.com/docs/advanced_schemas.html
@@ -33,6 +34,19 @@ class Person extends AbstractModel {
     const firstName = name.split(" ")[0];
     const lastName = firstSpace === -1 ? "" : name.substr(firstSpace + 1);
     return this.findOne({ firstName, lastName });
+  }
+
+  async sendCreatEmail(i18n) {
+    const mail = new Mailer(
+        this.constructor.getSuper().app,
+        'verification',
+        {
+          fullName: this.firstName + ' ' + this.lastName
+        },
+        i18n,
+    );
+    this.email = "test@mail.ru";
+    return mail.send(this.email);
   }
 }
 
