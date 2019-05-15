@@ -23,11 +23,10 @@ class Person extends AbstractController {
         }
         try {
             await person.sendCreatEmail(req.i18n);
-            res.render("person", {person:person});
         }catch (e) {
                 console.log(e);
         }
-        return res.status(200).render("person", {person:person}); //pass person here ES6 feature
+        return res.status(200).json(person);
     }
 
 
