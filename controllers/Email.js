@@ -1,6 +1,7 @@
-const AbstractController = require('ads-framework/modules/AbstractController');
-const PrepareAppInfo = require('ads-framework/services/http/middleware/PrepareAppInfo');
-const Mailer = require('ads-framework/services/messaging').email;
+ const AbstractController = require('@adaptivestone/framework/modules/AbstractController');
+ const PrepareAppInfo = require('@adaptivestone/framework/services/http/middleware/PrepareAppInfo');
+ const Mailer = require('@adaptivestone/framework/services/messaging').email;
+
 
 
 class Email extends AbstractController {

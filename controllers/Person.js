@@ -1,5 +1,5 @@
-const AbstractController = require('ads-framework/modules/AbstractController');
-const PrepareAppInfo = require('ads-framework/services/http/middleware/PrepareAppInfo');
+const AbstractController = require('@adaptivestone/framework/modules/AbstractController');
+const PrepareAppInfo = require('@adaptivestone/framework/services/http/middleware/PrepareAppInfo');
 
 class Person extends AbstractController {
     get routes() {

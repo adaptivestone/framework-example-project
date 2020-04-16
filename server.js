@@ -1,6 +1,6 @@
 "use strict";
 const path = require("path");
-let Server = require("ads-framework/server");
+let Server = require("@adaptivestone/framework/server");
 let server = new Server({
     folders:{
         config: path.resolve("./config"),

@@ -17,11 +17,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ads-framework": "git+https://git@gitlab.com/adaptivestone/framework.git#1.2.0"
+    "@adaptivestone/framework": "^1.2.2"
   },
   "devDependencies": {
-    "jest": "^24.9.0",
-    "mongodb-memory-server": "^6.0.2",
+    "jest": "^25.3.0",
+    "mongodb-memory-server": "^6.5.2",
     "nodemailer-stub": "^1.2.1",
     "nodemailer-stub-transport": "^1.1.0",
     "nodemon": "^2.0.1",

@@ -7,4 +7,4 @@ process.env.TEST_FOLDER_PUBLIC = path.resolve("./public");
 process.env.TEST_FOLDER_MODELS = path.resolve("./models");
 process.env.TEST_FOLDER_EMAILS = path.resolve("./services/messaging/email/templates");
 
-require("ads-framework/tests/setup");
+require("@adaptivestone/framework/tests/setup");

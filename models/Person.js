@@ -1,6 +1,6 @@
 "use strict";
-const AbstractModel = require("ads-framework/modules/AbstractModel");
-const Mailer = require('ads-framework/services/messaging').email;
+const AbstractModel = require("@adaptivestone/framework/modules/AbstractModel");
+const Mailer = require('@adaptivestone/framework/services/messaging').email;
 
 class Person extends AbstractModel {
   //https://mongoosejs.com/docs/advanced_schemas.html
