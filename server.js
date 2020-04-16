@@ -1,7 +1,8 @@
-"use strict";
 const path = require("path");
-let Server = require("@adaptivestone/framework/server");
-let server = new Server({
+
+const Server = require("@adaptivestone/framework/server");
+
+const server = new Server({
     folders:{
         config: path.resolve("./config"),
         models: path.resolve("./models"),

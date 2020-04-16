@@ -1,15 +1,11 @@
-let express;
 const request = require("supertest");
 
-beforeAll(() => {
-  express = global.server.app.httpServer.express;
-});
-
-describe("CREAT", () => {
-  test("creat person", async () => {
-    return request(express)
-      .get("/person")
-      .expect(200);
+describe("create", () => {
+  it("creat person", async () => {
+    expect.assertions(1);
+    const { status } = await request(global.server.app.httpServer.express)
+      .get("/person");
+      expect(status).toBe(200);
   });
 
 });

@@ -1,10 +1,10 @@
-"use strict";
 const AbstractModel = require("@adaptivestone/framework/modules/AbstractModel");
 const Mailer = require('@adaptivestone/framework/services/messaging').email;
 
 class Person extends AbstractModel {
-  //https://mongoosejs.com/docs/advanced_schemas.html
+  // https://mongoosejs.com/docs/advanced_schemas.html
 
+  // eslint-disable-next-line class-methods-use-this
   get modelSchema() {
     return {
         firstName: String,
@@ -41,7 +41,7 @@ class Person extends AbstractModel {
         this.constructor.getSuper().app,
         'verification',
         {
-          fullName: this.firstName + ' ' + this.lastName
+          fullName: `${this.firstName} ${this.lastName}`
         },
         i18n,
     );
