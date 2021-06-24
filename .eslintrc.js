@@ -6,15 +6,16 @@ module.exports = {
     'jest/globals': true,
     mongo: true,
   },
-  extends: ['airbnb-base', 'prettier', 'plugin:jest/all'],
+  extends: ['airbnb-base', 'plugin:jest/all', 'prettier'],
   plugins: ['jest'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
   },
+  parser: 'babel-eslint',
   rules: {
     'no-restricted-syntax': [
       'error',
@@ -35,5 +36,6 @@ module.exports = {
       },
     ],
     'jest/no-hooks': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

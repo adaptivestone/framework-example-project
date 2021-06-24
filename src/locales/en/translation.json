@@ -1,0 +1,21 @@
+{
+  "auth": {
+    "passwordProvided": "Password must be provided",
+    "emailProvided": "Email must be provided",
+    "errorUPValid": "User not valid"
+  },
+  "validation": {
+    "required": "Value must be provided",
+    "incorrect": "Invalid value provided",
+    "validEmailRequired": "A valid email address is required"
+  },
+  "email": {
+    "changed": "Email changed",
+    "greeating": "Dear user",
+    "footer": "Sincerely Yours",
+    "emailSupport": "Support email",
+    "passwordChanged": "Password changed",
+    "passwordRecovery": "Recovery password",
+    "emailConfirm": "Email confirmation"
+  }
+}

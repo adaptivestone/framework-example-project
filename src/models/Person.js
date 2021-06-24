@@ -1,4 +1,4 @@
-const AbstractModel = require("@adaptivestone/framework/modules/AbstractModel");
+const AbstractModel = require('@adaptivestone/framework/modules/AbstractModel');
 const Mailer = require('@adaptivestone/framework/services/messaging').email;
 
 class Person extends AbstractModel {
@@ -7,8 +7,8 @@ class Person extends AbstractModel {
   // eslint-disable-next-line class-methods-use-this
   get modelSchema() {
     return {
-        firstName: String,
-        lastName: String
+      firstName: String,
+      lastName: String,
     };
   }
 
@@ -18,9 +18,9 @@ class Person extends AbstractModel {
   }
 
   set fullName(v) {
-    const firstSpace = v.indexOf(" ");
-    this.firstName = v.split(" ")[0];
-    this.lastName = firstSpace === -1 ? "" : v.substr(firstSpace + 1);
+    const firstSpace = v.indexOf(' ');
+    [this.firstName] = v.split(' ');
+    this.lastName = firstSpace === -1 ? '' : v.substr(firstSpace + 1);
   }
 
   // `getFullName()` becomes a document method
@@ -30,22 +30,22 @@ class Person extends AbstractModel {
 
   // `findByFullName()` becomes a static
   static findByFullName(name) {
-    const firstSpace = name.indexOf(" ");
-    const firstName = name.split(" ")[0];
-    const lastName = firstSpace === -1 ? "" : name.substr(firstSpace + 1);
+    const firstSpace = name.indexOf(' ');
+    const firstName = name.split(' ')[0];
+    const lastName = firstSpace === -1 ? '' : name.substr(firstSpace + 1);
     return this.findOne({ firstName, lastName });
   }
 
   async sendCreatEmail(i18n) {
     const mail = new Mailer(
-        this.constructor.getSuper().app,
-        'verification',
-        {
-          fullName: `${this.firstName} ${this.lastName}`
-        },
-        i18n,
+      this.constructor.getSuper().app,
+      'verification',
+      {
+        fullName: `${this.firstName} ${this.lastName}`,
+      },
+      i18n,
     );
-    this.email = "test@mail.ru";
+    this.email = 'test@example.com';
     return mail.send(this.email);
   }
 }

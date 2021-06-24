@@ -1,10 +1,34 @@
-image: node:lts
-
 stages:
-  - test
+  - install
+  - checks
 
-test:
-  stage: test
+install:
+  stage: install
+  image: node:16
   script:
-    - npm i
-    - npm test
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 2 hour
+
+codestyle:
+  stage: checks
+  image: node:16
+  needs:
+    - install
+  dependencies:
+    - install
+  allow_failure: true
+  script:
+    - npm run codestyle
+
+tests:
+  stage: checks
+  image: node:16
+  needs:
+    - install
+  dependencies:
+    - install
+  script:
+    - npm run test

@@ -1,13 +1,13 @@
-version: '3.7'
+version: "3.8"
 services:
   ads-sample:
-    image: node:12
+    image: node:16
     volumes:
-      - ./:/var/www/:delegated
+      - ./:/var/www/
     working_dir: /var/www
     ports:
       - 3300:3300
-
+      - 9229:9229
 
     depends_on:
       - mongo
@@ -16,11 +16,12 @@ services:
     command: "npm run docker"
 
   mongo:
-    image: mongo:4.2
+    image: mongo:4.4-bionic
     volumes:
       - mongodata:/data/db
+      - ./dump:/dump
     ports:
-      - 27018:27017
+      - 27017:27017
 
 volumes:
   mongodata:

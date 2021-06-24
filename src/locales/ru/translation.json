@@ -1,0 +1,21 @@
+{
+  "auth": {
+    "passwordProvided": "Нужно ввести пароль",
+    "emailProvided": "Нужно указать Email",
+    "errorUPValid": "Пользователь неверен"
+  },
+  "validation": {
+    "required": "Значение должен быть в запросе",
+    "incorrect": "Предоставлено неверное значение",
+    "validEmailRequired": "Требуется действительный адрес электронной почты"
+  },
+  "email": {
+    "changed": "Email изменен",
+    "greeating": "Здравствуйте, пользователь",
+    "footer": "С Уважением",
+    "emailSupport": "Поддержка по email",
+    "passwordChanged": "Пароль был изменен",
+    "passwordRecovery": "Восстановление пароля",
+    "emailConfirm": "Подтверждение Email"
+  }
+}

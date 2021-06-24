@@ -7,7 +7,9 @@ class Email extends AbstractController {
   get routes() {
     return {
       get: {
-        '/:email': 'getEmail',
+        '/:email': {
+          handler: this.getEmail,
+        },
       },
     };
   }

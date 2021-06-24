@@ -1,5 +1,7 @@
 .idea
-node_modules/
+/node_modules/
 .env
 .DS_Store
 .vscode
+!.gitkeep
+.eslintcache

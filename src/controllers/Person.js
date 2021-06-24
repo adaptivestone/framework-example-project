@@ -6,7 +6,9 @@ class Person extends AbstractController {
   get routes() {
     return {
       get: {
-        '/': 'getPerson',
+        '/': {
+          handler: this.getPerson,
+        },
       },
     };
   }
