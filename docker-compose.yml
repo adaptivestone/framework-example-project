@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   ads-sample:
-    image: node:16
+    image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
     volumes:
       - ./:/var/www/
     working_dir: /var/www
@@ -11,17 +11,57 @@ services:
 
     depends_on:
       - mongo
+      - redis
     environment:
-      MONGO_DSN: mongodb://mongo/ads-framework
+      MONGO_DSN: mongodb://mongo/ads-framework?replicaSet=rs0
+      REDIS_URI: redis://redis
+      EMAIL_HOST: mailcatcher
+      EMAIL_PORT: 1025
     command: "npm run docker"
 
   mongo:
-    image: mongo:4.4-bionic
+    image: mongo:5.0
     volumes:
       - mongodata:/data/db
       - ./dump:/dump
     ports:
       - 27017:27017
+    entrypoint:
+      [
+        '/usr/bin/mongod',
+        '--bind_ip_all',
+        '--wiredTigerCacheSizeGB',
+        '1',
+        '--replSet',
+        'rs0'
+      ]
+
+  mongo-init-replica:
+    image: mongo:5.0
+    command: >
+      bash -c
+        "for i in `seq 1 30`; do
+          mongo mongo/ads-framework --eval \"
+            rs.initiate({
+              _id: 'rs0',
+              members: [ { _id: 0, host: 'mongo:27017' } ]})\" &&
+          s=$$? && break || s=$$?;
+          echo \"Tried $$i times. Waiting 5 secs...\";
+          sleep 5;
+        done; (exit $$s)"
+    depends_on:
+      - mongo
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+
+  # dev to check email
+  mailcatcher:
+    image: sj26/mailcatcher
+    ports:
+      - 1080:1080
 
 volumes:
   mongodata:

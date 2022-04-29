@@ -1,5 +1,4 @@
 const AbstractController = require('@adaptivestone/framework/modules/AbstractController');
-const PrepareAppInfo = require('@adaptivestone/framework/services/http/middleware/PrepareAppInfo');
 
 class Person extends AbstractController {
   // eslint-disable-next-line class-methods-use-this
@@ -34,7 +33,7 @@ class Person extends AbstractController {
   }
 
   static get middleware() {
-    return new Map([['/', [PrepareAppInfo]]]);
+    return new Map([['/', []]]);
   }
 }
 

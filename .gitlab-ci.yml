@@ -1,12 +1,13 @@
 stages:
   - install
   - checks
+  - deploy
 
 install:
   stage: install
-  image: node:16
+  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
   script:
-    - npm install
+    - npm ci
   artifacts:
     paths:
       - node_modules/
@@ -14,7 +15,7 @@ install:
 
 codestyle:
   stage: checks
-  image: node:16
+  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
   needs:
     - install
   dependencies:
@@ -24,11 +25,39 @@ codestyle:
     - npm run codestyle
 
 tests:
+  services:
+    - redis:latest
+  variables:
+    REDIS_URI: redis://redis
+    POLKA_MNEMO: bottom drive obey lake curtain smoke basket hold race lonely fit walk
+    EMAIL_TRANSPORT: stub
   stage: checks
-  image: node:16
+  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
   needs:
     - install
   dependencies:
     - install
   script:
     - npm run test
+
+deploy_production:
+  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
+  stage: deploy
+  dependencies: [] # do not download atrifacts
+  variables:
+    GIT_STRATEGY: none
+  environment:
+    name: production
+    url: http://test.com/
+  script:
+    - apt-get update -qq
+    # - apt-get install -qq git
+    # # Setup SSH deploy keys
+    - "which ssh-agent || ( apt-get install -qq openssh-client )"
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - ssh ubuntu@api.test.com "cd /var/www/nameProject &&  git reset --hard && git checkout main && git pull  && npm i && pm2 restart nameProject &&  npm run cli migration/migrate && exit"
+  only:
+    - main
