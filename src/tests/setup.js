@@ -11,9 +11,11 @@ process.env.TEST_FOLDER_EMAILS = path.resolve(
 );
 
 global.testSetup = {
+  disableUserCreate: true,
   beforeAll: async () => {
     // todo create users here
   },
 };
 
+// eslint-disable-next-line jest/require-hook
 require('@adaptivestone/framework/tests/setup');

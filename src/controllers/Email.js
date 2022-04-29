@@ -1,5 +1,4 @@
 const AbstractController = require('@adaptivestone/framework/modules/AbstractController');
-const PrepareAppInfo = require('@adaptivestone/framework/services/http/middleware/PrepareAppInfo');
 const Mailer = require('@adaptivestone/framework/services/messaging').email;
 
 class Email extends AbstractController {
@@ -28,7 +27,7 @@ class Email extends AbstractController {
   }
 
   static get middleware() {
-    return new Map([['/', [PrepareAppInfo]]]);
+    return new Map([['/', []]]);
   }
 }
 

@@ -13,9 +13,8 @@ module.exports = {
     SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2021,
   },
-  parser: 'babel-eslint',
   rules: {
     'no-restricted-syntax': [
       'error',
@@ -35,6 +34,7 @@ module.exports = {
           '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
       },
     ],
+    curly: ['error', 'all'],
     'jest/no-hooks': 'off',
     'no-underscore-dangle': 'off',
   },
