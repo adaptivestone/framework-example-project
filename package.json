@@ -4,16 +4,19 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon --L",
-    "test": "jest --passWithNoTests",
+    "dev": "nodemon -L",
+    "test": "jest --passWithNoTests --coverage=true",
+    "test:watch": "jest --passWithNoTests --coverage=true --watch",
     "codestyle": "prettier --check './src/**/*.(js|jsx|ts|tsx|json|css|scss|md)'",
     "docker": "npm i && npm run dev",
     "cli": "node src/cli",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "openApi": "node src/cli getopenapijson --output='src/public/openApi.json'"
   },
   "nodemonConfig": {
     "ignore": [
-      "src/locales/**/*.json"
+      "src/locales/**/*.json",
+      "src/**/*.test.js"
     ],
     "delay": "120ms",
     "exec": "fuser -k 9229/tcp; node --inspect=0.0.0.0 ./src/server.js"
@@ -22,13 +25,22 @@
     "setupFilesAfterEnv": [
       "./src/tests/setup.js"
     ],
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "text-summary"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@gitlab.com:adaptivestone/example-project.git"
   },
-  "author": "",
+  "author": {
+    "name": "Adaptivestone team",
+    "email": "info@adaptivestone.com",
+    "url": "https://adaptivestone.com"
+  },
   "license": "ISC",
   "dependencies": {
     "@adaptivestone/framework": "^3.0.16",
@@ -36,15 +48,13 @@
     "@sentry/tracing": "^6.19.7"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.1.5",
-    "husky": "^7.0.4",
-    "jest": "^28.0.3",
-    "lint-staged": "^12.4.1",
+    "husky": "^8.0.0",
+    "jest": "^29.0.0",
+    "lint-staged": "^13.0.0",
     "mongodb-memory-server": "^8.5.1",
     "nodemon": "^2.0.16",
     "prettier": "^2.6.2",

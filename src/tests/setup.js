@@ -13,6 +13,7 @@ process.env.TEST_FOLDER_EMAILS = path.resolve(
 global.testSetup = {
   disableUserCreate: true,
   beforeAll: async () => {
+    process.env.LOGGER_CONSOLE_LEVEL = 'error';
     // todo create users here
   },
 };
