@@ -27,7 +27,7 @@ class Person extends AbstractController {
     try {
       await person.sendCreatEmail(req.i18n);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e.message);
     }
     return res.status(200).json(person);
   }
