@@ -36,6 +36,7 @@ module.exports = {
     ],
     curly: ['error', 'all'],
     'jest/no-hooks': 'off',
+    'jest/require-hook': 'off',
     'no-underscore-dangle': 'off',
   },
 };

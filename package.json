@@ -43,7 +43,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@adaptivestone/framework": "^3.0.16",
+    "@adaptivestone/framework": "git+https://git@gitlab.com:adaptivestone/framework.git#main",
     "@sentry/node": "^7.30.0",
     "@sentry/tracing": "^7.30.0"
   },
