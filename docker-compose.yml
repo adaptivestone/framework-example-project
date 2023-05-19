@@ -20,7 +20,7 @@ services:
     command: "npm run docker"
 
   mongo:
-    image: mongo:5.0
+    image: mongo:6.0
     volumes:
       - mongodata:/data/db
       - ./dump:/dump
@@ -35,22 +35,10 @@ services:
         '--replSet',
         'rs0'
       ]
-
-  mongo-init-replica:
-    image: mongo:5.0
-    command: >
-      bash -c
-        "for i in `seq 1 30`; do
-          mongo mongo/ads-framework --eval \"
-            rs.initiate({
-              _id: 'rs0',
-              members: [ { _id: 0, host: 'mongo:27017' } ]})\" &&
-          s=$$? && break || s=$$?;
-          echo \"Tried $$i times. Waiting 5 secs...\";
-          sleep 5;
-        done; (exit $$s)"
-    depends_on:
-      - mongo
+    healthcheck:
+      test: test $$(mongosh --eval "try {rs.initiate({_id:'rs0',members:[{_id:0,host:\"mongo:27017\"}]})} catch(e) {rs.status().ok}") -eq 1
+      interval: 10s
+      retries: 5
 
   redis:
     image: redis
