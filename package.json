@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon -L",
+    "dev:container": "docker compose exec backend bash",
     "test": "jest --passWithNoTests --coverage=true",
     "test:watch": "jest --passWithNoTests --coverage=true --watch",
     "prettier": "prettier --check './src/**/*.(js|jsx|ts|tsx|json|css|scss|md)'",

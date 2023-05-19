@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  ads-sample:
+  backend:
     image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
     volumes:
       - ./:/var/www/
@@ -36,7 +36,7 @@ services:
         'rs0'
       ]
     healthcheck:
-      test: test $$(mongosh --eval "try {rs.initiate({_id:'rs0',members:[{_id:0,host:\"mongo:27017\"}]})} catch(e) {rs.status().ok}") -eq 1
+      test: test $$(mongosh --quiet --eval "try {rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]})} catch(e) {rs.status().ok}") -eq 1
       interval: 10s
       retries: 5
 
