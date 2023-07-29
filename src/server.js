@@ -2,7 +2,7 @@ const Sentry = require('@sentry/node');
 require('@sentry/tracing');
 
 Sentry.init({
-  dsn: process.env.SENTRY,
+  dsn: process.env.LOGGER_SENTRY_DSN,
 
   // We recommend adjusting this value in production, or using tracesSampler
   // for finer control
