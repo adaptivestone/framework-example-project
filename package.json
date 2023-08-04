@@ -48,7 +48,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@adaptivestone/framework": "git+https://git@gitlab.com:adaptivestone/framework.git#main",
+    "@adaptivestone/framework": "^4.0.0",
     "@sentry/node": "^7.30.0",
     "@sentry/tracing": "^7.30.0"
   },
@@ -61,8 +61,8 @@
     "jest": "^29.0.0",
     "lint-staged": "^13.0.0",
     "mongodb-memory-server": "^8.5.1",
-    "nodemon": "^2.0.16",
-    "prettier": "^2.6.2",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.1",
     "supertest": "^6.2.3"
   },
   "lint-staged": {
