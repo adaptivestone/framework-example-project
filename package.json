@@ -7,8 +7,7 @@
     "dev": "nodemon -L",
     "dev:container": "docker compose exec backend bash",
     "dev:c": "npm run dev:container",
-    "test": "jest --passWithNoTests --coverage=true",
-    "test:watch": "jest --passWithNoTests --coverage=true --watch",
+    "test": "vitest run --coverage",
     "prettier": "prettier --check './src/**/*.(js|jsx|ts|tsx|json|css|scss|md)'",
     "lint": "eslint 'src/**/*.js'",
     "lint:fix": "eslint 'src/**/*.js' --fix",
@@ -26,17 +25,6 @@
     "delay": "120ms",
     "exec": "fuser -k 9229/tcp; node --inspect=0.0.0.0 ./src/server.js"
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./src/tests/setup.js"
-    ],
-    "testEnvironment": "node",
-    "collectCoverage": true,
-    "coverageReporters": [
-      "text",
-      "text-summary"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@gitlab.com:adaptivestone/example-project.git"
@@ -53,16 +41,17 @@
     "@sentry/tracing": "^7.30.0"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^0.34.3",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-jest": "^27.2.1",
+    "eslint-plugin-vitest": "^0.3.1",
     "husky": "^8.0.0",
-    "jest": "^29.0.0",
     "lint-staged": "^14.0.0",
     "mongodb-memory-server": "^8.5.1",
     "nodemon": "^3.0.1",
-    "prettier": "^3.0.1"
+    "prettier": "^3.0.1",
+    "vitest": "^0.34.3"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",

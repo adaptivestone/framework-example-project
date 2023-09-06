@@ -3,11 +3,10 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    'jest/globals': true,
     mongo: true,
   },
-  extends: ['airbnb-base', 'plugin:jest/all', 'prettier'],
-  plugins: ['jest'],
+  extends: ['airbnb-base', 'plugin:vitest/all', 'prettier'],
+  plugins: ['vitest'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -18,8 +17,6 @@ module.exports = {
   rules: {
     'no-restricted-syntax': 'off',
     curly: ['error', 'all'],
-    'jest/no-hooks': 'off',
-    'jest/require-hook': 'off',
     'no-underscore-dangle': 'off',
   },
 };

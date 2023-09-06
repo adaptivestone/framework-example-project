@@ -17,6 +17,3 @@ global.testSetup = {
     // todo create users here
   },
 };
-
-// eslint-disable-next-line jest/require-hook
-require('@adaptivestone/framework/tests/setup');

@@ -5,3 +5,4 @@
 .vscode
 !.gitkeep
 .eslintcache
+coverage
