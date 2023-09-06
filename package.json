@@ -11,7 +11,6 @@
     "prettier": "prettier --check './src/**/*.(js|jsx|ts|tsx|json|css|scss|md)'",
     "lint": "eslint 'src/**/*.js'",
     "lint:fix": "eslint 'src/**/*.js' --fix",
-    "codestyle": "npm run prettier && npm run lint",
     "docker": "npm i && npm run dev",
     "cli": "node src/cli",
     "prepare": "husky install",

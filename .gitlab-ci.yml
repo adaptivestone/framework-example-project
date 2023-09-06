@@ -13,16 +13,23 @@ install:
       - node_modules/
     expire_in: 2 hour
 
-codestyle:
+prettier:
   stage: checks
   image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
   needs:
     - install
-  dependencies:
+  allow_failure: true
+  script:
+    - npm run prettier
+
+lint:
+  stage: checks
+  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
+  needs:
     - install
   allow_failure: true
   script:
-    - npm run codestyle
+    - npm run lint
 
 tests:
   services:
