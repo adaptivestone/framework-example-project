@@ -1,5 +1,5 @@
-const Cli = require('@adaptivestone/framework/Cli');
-const folderConfig = require('./folderConfig');
+import Cli from '@adaptivestone/framework/Cli.js';
+import folderConfig from './folderConfig.js';
 
 const cli = new Cli(folderConfig);
 

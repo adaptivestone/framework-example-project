@@ -1,6 +1,6 @@
-const originalHttpConfig = require('@adaptivestone/framework/config/http');
+import originalHttpConfig from '@adaptivestone/framework/config/http.js';
 
-module.exports = {
+export default {
   ...originalHttpConfig,
   corsDomains: ['http://localhost:3000', 'http://localhost:3300'],
 }; // overwrite sample

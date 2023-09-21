@@ -1,7 +1,9 @@
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
+import cluster from 'node:cluster';
+import { cpus } from 'node:os';
 
-if (cluster.isMaster) {
+const numCPUs = cpus().length;
+
+if (cluster.isPrimary) {
   // eslint-disable-next-line no-console
   console.log(`Master ${process.pid} is running`);
   // Fork workers.

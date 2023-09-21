@@ -1,6 +1,9 @@
-const path = require('path');
+import path from 'node:path';
+import * as url from 'url';
 
-module.exports = {
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+export default {
   folders: {
     config: path.resolve(__dirname, './config'),
     models: path.resolve(__dirname, './models'),

@@ -1,6 +1,6 @@
-const originalAuth = require('@adaptivestone/framework/config/auth');
+import originalAuth from '@adaptivestone/framework/config/auth.js';
 
-module.exports = {
+export default {
   ...originalAuth,
   isAuthWithVefificationFlow: false,
 };

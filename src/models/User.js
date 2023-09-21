@@ -1,5 +1,5 @@
-const OriginalUserModel = require('@adaptivestone/framework/models/User');
+import OriginalUserModel from '@adaptivestone/framework/models/User.js';
 
 class User extends OriginalUserModel {}
 
-module.exports = User;
+export default User;

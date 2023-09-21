@@ -1,5 +1,5 @@
-const AbstractModel = require('@adaptivestone/framework/modules/AbstractModel');
-const Mailer = require('@adaptivestone/framework/services/messaging').email;
+import AbstractModel from '@adaptivestone/framework/modules/AbstractModel.js';
+import Mailer from '@adaptivestone/framework/services/messaging/email/index.js';
 
 class Person extends AbstractModel {
   // https://mongoosejs.com/docs/advanced_schemas.html
@@ -50,4 +50,4 @@ class Person extends AbstractModel {
   }
 }
 
-module.exports = Person;
+export default Person;

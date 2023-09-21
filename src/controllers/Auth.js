@@ -1,5 +1,5 @@
-const AbstractController = require('@adaptivestone/framework/modules/AbstractController');
+import AbstractController from '@adaptivestone/framework/modules/AbstractController.js';
 
 class Auth extends AbstractController {}
 
-module.exports = Auth;
+export default Auth;

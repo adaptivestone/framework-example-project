@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'node:path';
 
 process.env.TEST_FOLDER_CONFIG = path.resolve(__dirname, '../config');
 process.env.TEST_FOLDER_CONTROLLERS = path.resolve(__dirname, '../controllers');

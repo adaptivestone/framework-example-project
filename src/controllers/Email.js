@@ -1,5 +1,5 @@
-const AbstractController = require('@adaptivestone/framework/modules/AbstractController');
-const Mailer = require('@adaptivestone/framework/services/messaging').email;
+import AbstractController from '@adaptivestone/framework/modules/AbstractController.js';
+import { email as Mailer } from '@adaptivestone/framework/services/messaging/index.js';
 
 class Email extends AbstractController {
   // eslint-disable-next-line class-methods-use-this
@@ -31,4 +31,4 @@ class Email extends AbstractController {
   }
 }
 
-module.exports = Email;
+export default Email;

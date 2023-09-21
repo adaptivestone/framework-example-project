@@ -1,4 +1,4 @@
-const AbstractController = require('@adaptivestone/framework/modules/AbstractController');
+import AbstractController from '@adaptivestone/framework/modules/AbstractController.js';
 
 class Person extends AbstractController {
   // eslint-disable-next-line class-methods-use-this
@@ -37,4 +37,4 @@ class Person extends AbstractController {
   }
 }
 
-module.exports = Person;
+export default Person;

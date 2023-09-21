@@ -1,5 +1,7 @@
-const Sentry = require('@sentry/node');
-require('@sentry/tracing');
+import * as Sentry from '@sentry/node';
+import Server from '@adaptivestone/framework/server.js';
+
+import folderConfig from './folderConfig.js';
 
 Sentry.init({
   dsn: process.env.LOGGER_SENTRY_DSN,
@@ -8,10 +10,11 @@ Sentry.init({
   // for finer control
   tracesSampleRate: 1.0,
   environment: process.env.NODE_ENV,
+  integrations: [
+    // Automatically instrument Node.js libraries and frameworks
+    ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
+  ],
 });
-
-const Server = require('@adaptivestone/framework/server');
-const folderConfig = require('./folderConfig');
 
 const server = new Server(folderConfig);
 

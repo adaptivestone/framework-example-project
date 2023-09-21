@@ -1,5 +1,5 @@
-const originalMailConfig = require('@adaptivestone/framework/config/mail');
+import originalMailConfig from '@adaptivestone/framework/config/mail.js';
 
 originalMailConfig.from = 'YourName <no-reply@api.projectName.com>';
 
-module.exports = originalMailConfig;
+export default originalMailConfig;
