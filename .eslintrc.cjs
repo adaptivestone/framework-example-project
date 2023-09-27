@@ -13,7 +13,7 @@ module.exports = {
     'prettier/prettier': 'error',
     curly: ['error', 'all'],
     'no-underscore-dangle': 'off',
-    'import/extensions': 'off', // it have a problem with dynamic imports
+    'import/extensions': ['error', 'always'], // it have a problem with dynamic imports
   },
   overrides: [
     {
