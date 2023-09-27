@@ -45,6 +45,16 @@ tests:
     - install
   script:
     - npm run test
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    when: always
+    paths:
+      - coverage/rspec.xml
+    reports:
+      junit: coverage/rspec.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
 
 # deploy_production:
 #   image: registry.gitlab.com/adaptivestone/ubuntu-node:latest

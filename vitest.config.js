@@ -10,5 +10,11 @@ export default defineConfig({
     testTimeout: 10000,
     hookTimeout: 100000,
     passWithNoTests: true,
+    outputFile: './coverage/rspec.xml',
+    reporters: ['default', 'junit'],
+    coverage: {
+      enabled: true,
+      reporter: ['text', 'html', 'clover', 'json', 'cobertura'],
+    },
   },
 });
