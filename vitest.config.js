@@ -1,8 +1,11 @@
-// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line import/no-unresolved, import/extensions
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
+    globalSetup: [
+      'node_modules/@adaptivestone/framework/tests/globalSetupVitest',
+    ],
     setupFiles: [
       './src/tests/setup.js',
       '@adaptivestone/framework/tests/setupVitest',
