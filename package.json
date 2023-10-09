@@ -8,6 +8,7 @@
     "dev": "nodemon -L",
     "dev:container": "docker compose exec backend bash",
     "dev:c": "npm run dev:container",
+    "dev:l": "docker compose logs backend -f",
     "test": "vitest run",
     "t": "vitest --coverage=false --reporter=default",
     "prettier": "prettier --check './src/**/*.(js|jsx|ts|tsx|json|css|scss|md)'",
@@ -49,7 +50,7 @@
     "eslint-plugin-vitest": "^0.3.1",
     "husky": "^8.0.0",
     "lint-staged": "^14.0.0",
-    "mongodb-memory-server": "^8.5.1",
+    "mongodb-memory-server": "^9.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.1",
     "vitest": "^0.34.3"
