@@ -20,12 +20,14 @@ services:
     command: "npm run docker"
 
   mongo:
-    image: mongo:6.0
+    image: mongo:7.0
     volumes:
       - mongodata:/data/db
       - ./dump:/dump
     ports:
       - 27017:27017
+    extra_hosts:
+      - "localhost:0.0.0.0"  
     entrypoint:
       [
         '/usr/bin/mongod',
@@ -36,7 +38,7 @@ services:
         'rs0'
       ]
     healthcheck:
-      test: test $$(mongosh --quiet --eval "try {rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]})} catch(e) {rs.status().ok}") -eq 1
+      test: test $$(mongosh --quiet --eval "try {rs.initiate({_id:'rs0',members:[{_id:0,host:'localhost:27017'}]})} catch(e) {rs.status().ok}") -eq 1
       interval: 10s
       retries: 5
 
