@@ -38,22 +38,22 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@adaptivestone/framework": "^4.0.0",
+    "@adaptivestone/framework": "^5.0.0-alpha.1",
     "@sentry/node": "^7.30.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^0.34.3",
+    "@vitest/coverage-v8": "^1.0.0",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-vitest": "^0.3.1",
     "husky": "^8.0.0",
-    "lint-staged": "^14.0.0",
+    "lint-staged": "^15.0.0",
     "mongodb-memory-server": "^9.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.1",
-    "vitest": "^0.34.3"
+    "vitest": "^1.0.0"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
