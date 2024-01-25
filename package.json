@@ -16,7 +16,7 @@
     "lint:fix": "eslint 'src/**/*.js' --fix",
     "docker": "npm i && npm run dev",
     "cli": "node src/cli",
-    "prepare": "husky install",
+    "prepare": "husky",
     "openApi": "node src/cli getopenapijson --output='src/public/openApi.json'"
   },
   "nodemonConfig": {
@@ -48,7 +48,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-vitest": "^0.3.1",
-    "husky": "^8.0.0",
+    "husky": "^9.0.0",
     "lint-staged": "^15.0.0",
     "mongodb-memory-server": "^9.0.0",
     "nodemon": "^3.0.1",
