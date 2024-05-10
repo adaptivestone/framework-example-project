@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   backend:
     image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
