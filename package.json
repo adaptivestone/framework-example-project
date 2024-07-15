@@ -42,7 +42,7 @@
     "@sentry/node": "^7.30.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^1.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
@@ -53,7 +53,7 @@
     "mongodb-memory-server": "^9.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.1",
-    "vitest": "^1.0.0"
+    "vitest": "^2.0.0"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",
