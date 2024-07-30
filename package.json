@@ -17,7 +17,8 @@
     "docker": "npm i && npm run dev",
     "cli": "node src/cli",
     "prepare": "husky",
-    "openApi": "node src/cli getopenapijson --output='src/public/openApi.json'"
+    "openApi": "node src/cli getopenapijson --output='src/public/openApi.json'",
+    "docker:build": "docker build -t example-project ."
   },
   "nodemonConfig": {
     "ignore": [
@@ -39,7 +40,7 @@
   "license": "ISC",
   "dependencies": {
     "@adaptivestone/framework": "^5.0.0-alpha.8",
-    "@sentry/node": "^7.30.0"
+    "@sentry/node": "^8.0.0"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^2.0.0",
@@ -50,7 +51,7 @@
     "eslint-plugin-vitest": "^0.4.0",
     "husky": "^9.0.0",
     "lint-staged": "^15.0.0",
-    "mongodb-memory-server": "^9.0.0",
+    "mongodb-memory-server": "^10.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.1",
     "vitest": "^2.0.0"
