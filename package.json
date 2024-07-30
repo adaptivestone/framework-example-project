@@ -18,7 +18,7 @@
     "cli": "node src/cli",
     "prepare": "husky",
     "openApi": "node src/cli getopenapijson --output='src/public/openApi.json'",
-    "docker:build": "docker build -t example-project ."
+    "docker:build": "docker buildx build --platform linux/amd64,linux/arm64 -t registry.gitlab.com/adaptivestone/example-project:latest . --push"
   },
   "nodemonConfig": {
     "ignore": [

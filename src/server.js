@@ -10,10 +10,7 @@ Sentry.init({
   // for finer control
   tracesSampleRate: 1.0,
   environment: process.env.NODE_ENV,
-  integrations: [
-    // Automatically instrument Node.js libraries and frameworks
-    ...Sentry.autoDiscoverNodePerformanceMonitoringIntegrations(),
-  ],
+  integrations: [],
 });
 
 const server = new Server(folderConfig);
