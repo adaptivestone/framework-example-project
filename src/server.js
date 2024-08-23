@@ -15,4 +15,6 @@ Sentry.init({
 
 const server = new Server(folderConfig);
 
-server.startServer();
+await server.startServer();
+
+// you can put any additional logic here like adding websoket, etc
