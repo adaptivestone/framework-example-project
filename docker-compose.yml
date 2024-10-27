@@ -19,7 +19,7 @@ services:
     command: "npm run docker"
 
   mongo:
-    image: mongo:7.0
+    image: mongo:8.0
     volumes:
       - mongodata:/data/db
       - ./dump:/dump

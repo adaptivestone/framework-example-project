@@ -33,7 +33,7 @@ class Person extends AbstractController {
   }
 
   static get middleware() {
-    return new Map([['/', []]]);
+    return new Map([['/*splat', []]]);
   }
 }
 
