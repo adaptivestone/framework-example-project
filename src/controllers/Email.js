@@ -27,7 +27,7 @@ class Email extends AbstractController {
   }
 
   static get middleware() {
-    return new Map([['/*splat', []]]);
+    return new Map([['/{*splat}', []]]);
   }
 }
 
