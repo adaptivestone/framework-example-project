@@ -1,7 +1,6 @@
 import AbstractController from '@adaptivestone/framework/modules/AbstractController.js';
 
 class Person extends AbstractController {
-  // eslint-disable-next-line class-methods-use-this
   get routes() {
     return {
       get: {
@@ -12,7 +11,6 @@ class Person extends AbstractController {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async getPerson(req, res) {
     const PersonModel = req.appInfo.app.getModel('Person');
     let person = await PersonModel.findOne({ lastName: 'Show' });

@@ -2,7 +2,6 @@ import AbstractController from '@adaptivestone/framework/modules/AbstractControl
 import { email as Mailer } from '@adaptivestone/framework/services/messaging/index.js';
 
 class Email extends AbstractController {
-  // eslint-disable-next-line class-methods-use-this
   get routes() {
     return {
       get: {
