@@ -1,6 +1,6 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
-import importPlugin from 'eslint-plugin-import';
+import importPlugin from 'eslint-plugin-import-x';
 import vitest from '@vitest/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
@@ -28,8 +28,8 @@ export default [
       'class-methods-use-this': 'error',
       'no-shadow': 'error',
       'prefer-const': 'error',
-      'import/no-extraneous-dependencies': ['error'],
-      'import/first': ['error'],
+      'import-x/no-extraneous-dependencies': ['error'],
+      'import-x/first': ['error'],
       camelcase: ['error', { properties: 'never', ignoreDestructuring: false }],
       'prefer-destructuring': [
         'error',
