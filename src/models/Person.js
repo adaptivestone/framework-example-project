@@ -1,5 +1,5 @@
 import AbstractModel from '@adaptivestone/framework/modules/AbstractModel.js';
-import Mailer from '@adaptivestone/framework/services/messaging/email/index.js';
+import Mailer from '@adaptivestone/framework-module-email';
 
 class Person extends AbstractModel {
   // https://mongoosejs.com/docs/advanced_schemas.html

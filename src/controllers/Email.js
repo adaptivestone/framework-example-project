@@ -1,5 +1,5 @@
 import AbstractController from '@adaptivestone/framework/modules/AbstractController.js';
-import { email as Mailer } from '@adaptivestone/framework/services/messaging/index.js';
+import Mailer from '@adaptivestone/framework-module-email';
 
 class Email extends AbstractController {
   get routes() {
