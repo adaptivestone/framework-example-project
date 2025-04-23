@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     globalSetup: [
-      'node_modules/@adaptivestone/framework/tests/globalSetupVitest',
+      'node_modules/@adaptivestone/framework/dist/tests/globalSetupVitest',
     ],
     setupFiles: [
       './src/tests/setup.js',
