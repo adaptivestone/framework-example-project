@@ -5,18 +5,21 @@ import {
   createNodeResolver,
 } from 'eslint-plugin-import-x';
 
+import tseslint from 'typescript-eslint';
+
 import vitest from '@vitest/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
 // eslint-disable-next-line import-x/extensions
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+export default tseslint.config([
   {
     settings: {
       'import-x/resolver-next': [createNodeResolver()],
     },
   },
+  tseslint.configs.recommended,
   pluginJs.configs.recommended,
   importPluginFlatConfig.recommended,
   eslintConfigPrettier,
@@ -76,4 +79,4 @@ export default [
       ...vitest.configs.recommended.rules,
     },
   },
-];
+]);
