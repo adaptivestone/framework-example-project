@@ -1,6 +1,10 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
-import { flatConfigs as importPluginFlatConfig } from 'eslint-plugin-import-x';
+import {
+  flatConfigs as importPluginFlatConfig,
+  createNodeResolver,
+} from 'eslint-plugin-import-x';
+
 import vitest from '@vitest/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
 // eslint-disable-next-line import-x/extensions
@@ -8,10 +12,16 @@ import prettierPlugin from 'eslint-plugin-prettier/recommended';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  {
+    settings: {
+      'import-x/resolver-next': [createNodeResolver()],
+    },
+  },
   pluginJs.configs.recommended,
   importPluginFlatConfig.recommended,
   eslintConfigPrettier,
   prettierPlugin,
+
   {
     languageOptions: {
       sourceType: 'module',
