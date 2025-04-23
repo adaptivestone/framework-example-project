@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/node';
 import Server from '@adaptivestone/framework/server.js';
 
-import folderConfig from './folderConfig.js';
+import folderConfig from './folderConfig.ts';
 
 Sentry.init({
   dsn: process.env.LOGGER_SENTRY_DSN,

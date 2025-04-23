@@ -1,5 +1,8 @@
 import AbstractController from '@adaptivestone/framework/modules/AbstractController.js';
 
+import type { FrameworkRequest } from '@adaptivestone/framework/services/http/HttpServer.d.ts';
+import type { Response } from 'express';
+
 class Person extends AbstractController {
   get routes() {
     return {
@@ -11,7 +14,7 @@ class Person extends AbstractController {
     };
   }
 
-  async getPerson(req, res) {
+  async getPerson(req: FrameworkRequest, res: Response) {
     const PersonModel = req.appInfo.app.getModel('Person');
     let person = await PersonModel.findOne({ lastName: 'Show' });
 
@@ -23,9 +26,13 @@ class Person extends AbstractController {
       });
     }
     try {
-      await person.sendCreatEmail(req.i18n);
+      await person.sendCreatEmail(req.appInfo.i18n);
     } catch (e) {
-      this.logger.error(e.message);
+      if (e instanceof Error) {
+        this.logger?.error(e.message);
+      } else {
+        this.logger?.error('An unknown error occurred');
+      }
     }
     return res.status(200).json(person);
   }

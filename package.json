@@ -15,9 +15,9 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "docker": "npm i && npm run dev",
-    "cli": "node src/cli",
+    "cli": "node src/cli.ts",
     "prepare": "husky",
-    "openApi": "node src/cli getopenapijson --output='src/public/openApi.json'",
+    "openApi": "node src/cli.ts getopenapijson --output='src/public/openApi.json'",
     "docker:build": "docker buildx build --platform linux/amd64,linux/arm64 -t registry.gitlab.com/adaptivestone/example-project:latest . --push"
   },
   "nodemonConfig": {
@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@types/express": "^5.0.1",
     "@vitest/coverage-v8": "^3.0.0",
     "@vitest/eslint-plugin": "^1.1.25",
     "eslint": "^9.0.0",
@@ -57,6 +58,7 @@
     "mongodb-memory-server": "^10.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.1",
+    "typescript": "^5.8.3",
     "vitest": "^3.0.0"
   },
   "lint-staged": {
