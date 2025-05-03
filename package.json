@@ -26,6 +26,7 @@
       "src/**/*.test.js",
       "src/**/*.test.ts"
     ],
+    "ext": "js,ts",
     "delay": "120ms",
     "exec": "fuser -k 9229/tcp; node --inspect=0.0.0.0 ./src/server.ts"
   },
