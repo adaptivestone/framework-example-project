@@ -27,6 +27,7 @@
       "src/**/*.test.ts",
       "*.d.ts"
     ],
+    "ext": "js,ts",
     "delay": "120ms",
     "exec": "npm run cli generatetypes; fuser -k 9229/tcp; node --inspect=0.0.0.0 ./src/server.ts"
   },
