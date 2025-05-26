@@ -24,10 +24,11 @@
     "ignore": [
       "src/locales/**/*.json",
       "src/**/*.test.js",
-      "src/**/*.test.ts"
+      "src/**/*.test.ts",
+      "*.d.ts"
     ],
     "delay": "120ms",
-    "exec": "fuser -k 9229/tcp; node --inspect=0.0.0.0 ./src/server.ts"
+    "exec": "npm run cli generatetypes; fuser -k 9229/tcp; node --inspect=0.0.0.0 ./src/server.ts"
   },
   "repository": {
     "type": "git",

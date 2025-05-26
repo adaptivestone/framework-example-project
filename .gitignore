@@ -6,3 +6,4 @@
 !.gitkeep
 .eslintcache
 coverage
+genTypes.d.ts
