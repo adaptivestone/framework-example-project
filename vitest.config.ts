@@ -7,8 +7,9 @@ export default defineConfig({
       'node_modules/@adaptivestone/framework/dist/tests/globalSetupVitest',
     ],
     setupFiles: [
-      './src/tests/setup.js',
+      './src/tests/setup.ts',
       '@adaptivestone/framework/tests/setupVitest',
+      './src/tests/setupHooks.ts',
     ],
     testTimeout: 10000,
     hookTimeout: 100000,

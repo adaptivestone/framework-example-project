@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-
+import { appInstance } from '@adaptivestone/framework/helpers/appInstance.js';
 describe('person', () => {
   it('sample person test', async () => {
     expect.assertions(4);
-    const Person = await global.server.app.getModel('Person');
+    const Person = await appInstance.getModel('Person');
     let doc = await Person.create({
       firstName: 'Jon',
       lastName: 'Snow',

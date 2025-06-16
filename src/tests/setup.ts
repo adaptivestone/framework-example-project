@@ -8,11 +8,3 @@ process.env.TEST_FOLDER_EMAILS = path.resolve(
   __dirname,
   '../services/messaging/email/templates',
 );
-
-global.testSetup = {
-  disableUserCreate: true,
-  beforeAll: async () => {
-    process.env.LOGGER_CONSOLE_LEVEL = 'error';
-    // todo create users here
-  },
-};
