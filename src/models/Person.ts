@@ -71,8 +71,8 @@ class Person extends BaseModel {
       fullName: {
         // schema
         options: {
-          type: Object,
-        },
+          type: String,
+        } as const,
         // Getter
         get(this: InstanceType<TPersonLite>) {
           return `${this.firstName} ${this.lastName}`;
@@ -84,7 +84,7 @@ class Person extends BaseModel {
           this.set({ firstName, lastName });
         },
       },
-    } as const;
+    };
   }
 }
 
