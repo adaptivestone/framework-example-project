@@ -14,8 +14,8 @@ describe('person', () => {
     expect(doc.firstName).toBe('Jon');
     expect(doc.lastName).toBe('Stark');
 
-    doc = await Person.findByFullName('Jon Snow');
+    const doc2 = await Person.findByFullName('Jon Snow');
 
-    expect(doc.lastName).toBe('Snow');
+    expect(doc2?.lastName).toBe('Snow');
   });
 });
