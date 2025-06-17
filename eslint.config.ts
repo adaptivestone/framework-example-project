@@ -15,6 +15,9 @@ import prettierPlugin from 'eslint-plugin-prettier/recommended';
 /** @type {import('eslint').Linter.Config[]} */
 export default tseslint.config([
   {
+    ignores: ['genTypes.d.ts'],
+  },
+  {
     settings: {
       'import-x/resolver-next': [createNodeResolver()],
     },
