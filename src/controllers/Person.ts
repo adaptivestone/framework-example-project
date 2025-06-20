@@ -2,7 +2,7 @@ import AbstractController from '@adaptivestone/framework/modules/AbstractControl
 
 import type { FrameworkRequest } from '@adaptivestone/framework/services/http/HttpServer.d.ts';
 import type { Response } from 'express';
-import type {TPerson} from '../models/Person.ts'
+import type { TPerson } from '../models/Person.ts';
 
 class Person extends AbstractController {
   get routes() {
