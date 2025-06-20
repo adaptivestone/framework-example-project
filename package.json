@@ -16,7 +16,9 @@
     "lint:fix": "eslint --fix --flag unstable_native_nodejs_ts_config",
     "docker": "npm i && npm run dev",
     "cli": "node src/cli.ts",
-    "check:types": "tsc --noEmit",
+    "generateTypes": "npm run cli generatetypes",
+    "check:types": "npm run generateTypes && tsc --noEmit",
+    "check:types:raw": "tsc --noEmit",
     "openApi": "node src/cli.ts getopenapijson --output='src/public/openApi.json'",
     "docker:build": "docker buildx build --platform linux/amd64,linux/arm64 -t registry.gitlab.com/adaptivestone/example-project:latest . --push"
   },
