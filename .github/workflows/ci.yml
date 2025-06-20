@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Codestyle
+
+on:
+  push:
+    branches: ['*']
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    strategy:
+      matrix:
+        task: [prettier, lint, 'check:types']
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: 'npm'
+      - name: npm clean install
+        run: npm ci
+      - name: Run Task
+        run: npm run ${{ matrix.task }}

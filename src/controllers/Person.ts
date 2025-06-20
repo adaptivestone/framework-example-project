@@ -26,7 +26,7 @@ class Person extends AbstractController {
       });
     }
     try {
-      await person.sendCreatEmail(req.appInfo.i18n);
+      await person.sendCreatEmail(req.appInfo.i18n!);
     } catch (e) {
       if (e instanceof Error) {
         this.logger?.error(e.message);
