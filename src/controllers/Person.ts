@@ -2,6 +2,7 @@ import AbstractController from '@adaptivestone/framework/modules/AbstractControl
 
 import type { FrameworkRequest } from '@adaptivestone/framework/services/http/HttpServer.d.ts';
 import type { Response } from 'express';
+import type {TPerson} from '../models/Person.ts'
 
 class Person extends AbstractController {
   get routes() {
@@ -15,7 +16,7 @@ class Person extends AbstractController {
   }
 
   async getPerson(req: FrameworkRequest, res: Response) {
-    const PersonModel = req.appInfo.app.getModel('Person');
+    const PersonModel = req.appInfo.app.getModel('Person') as TPerson;
     let person = await PersonModel.findOne({ lastName: 'Show' });
 
     if (!person) {
