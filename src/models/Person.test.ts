@@ -4,7 +4,7 @@ describe('person', () => {
   it('sample person test', async () => {
     expect.assertions(4);
     const Person = await appInstance.getModel('Person');
-    let doc = await Person.create({
+    const doc = await Person.create({
       firstName: 'Jon',
       lastName: 'Snow',
     });
