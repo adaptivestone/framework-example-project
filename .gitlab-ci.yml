@@ -13,23 +13,14 @@ install:
       - node_modules/
     expire_in: 2 hour
 
-prettier:
+quality:
   stage: checks
   image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
   needs:
     - install
   allow_failure: true
   script:
-    - npm run prettier
-
-lint:
-  stage: checks
-  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
-  needs:
-    - install
-  allow_failure: true
-  script:
-    - npm run lint
+    - npm run check
 
 tests:
   services:
@@ -55,6 +46,7 @@ tests:
       coverage_report:
         coverage_format: cobertura
         path: coverage/cobertura-coverage.xml
+
 
 # deploy_production:
 #   image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
