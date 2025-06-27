@@ -1,10 +1,10 @@
-import Mailer from '@adaptivestone/framework-module-email';
-import { BaseModel } from '@adaptivestone/framework/modules/BaseModel.js';
 import { appInstance } from '@adaptivestone/framework/helpers/appInstance.js';
 import type {
   GetModelTypeFromClass,
   GetModelTypeLiteFromSchema,
 } from '@adaptivestone/framework/modules/BaseModel.js';
+import { BaseModel } from '@adaptivestone/framework/modules/BaseModel.js';
+import Mailer from '@adaptivestone/framework-module-email';
 import type { TFunction } from 'i18next';
 
 export type TPerson = GetModelTypeFromClass<typeof Person>;

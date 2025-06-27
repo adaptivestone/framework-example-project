@@ -1,5 +1,5 @@
-import * as Sentry from '@sentry/node';
 import Server from '@adaptivestone/framework/server.js';
+import * as Sentry from '@sentry/node';
 
 import folderConfig from './folderConfig.ts';
 

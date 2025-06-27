@@ -1,7 +1,6 @@
 import AbstractController from '@adaptivestone/framework/modules/AbstractController.js';
-import Mailer from '@adaptivestone/framework-module-email';
-
 import type { FrameworkRequest } from '@adaptivestone/framework/services/http/HttpServer.d.ts';
+import Mailer from '@adaptivestone/framework-module-email';
 import type { Response } from 'express';
 
 class Email extends AbstractController {

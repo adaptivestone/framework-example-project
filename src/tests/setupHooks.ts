@@ -1,4 +1,4 @@
-import { beforeAll, afterAll } from 'vitest';
+import { afterAll, beforeAll } from 'vitest';
 
 beforeAll(() => {
   console.log('Hi. This is a before all hook');

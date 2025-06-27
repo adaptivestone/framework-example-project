@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
 import { appInstance } from '@adaptivestone/framework/helpers/appInstance.js';
+import { describe, expect, it } from 'vitest';
+
 describe('person', () => {
   it('sample person test', async () => {
     expect.assertions(4);

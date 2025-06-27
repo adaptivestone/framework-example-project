@@ -1,16 +1,14 @@
-import globals from 'globals';
 import pluginJs from '@eslint/js';
-import {
-  flatConfigs as importPluginFlatConfig,
-  createNodeResolver,
-} from 'eslint-plugin-import-x';
-
-import tseslint from 'typescript-eslint';
-
 import vitest from '@vitest/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import {
+  createNodeResolver,
+  flatConfigs as importPluginFlatConfig,
+} from 'eslint-plugin-import-x';
 // eslint-disable-next-line import-x/extensions
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default tseslint.config([
