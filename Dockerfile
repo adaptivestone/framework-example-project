@@ -6,4 +6,4 @@ USER node
 RUN npm ci
 COPY --chown=node:node src/ ./src/
 EXPOSE 3300
-CMD [ "node", "src/index.js"]
+CMD [ "node", "src/index.ts"]

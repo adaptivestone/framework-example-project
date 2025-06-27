@@ -14,7 +14,6 @@ class Email extends AbstractController {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async getEmail(req: FrameworkRequest, res: Response) {
     // TODO error check, pass params check. This is just for testing emails, not producftion ready
     const mail = new Mailer(
