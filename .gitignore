@@ -1,8 +1,7 @@
-.idea
 /node_modules/
 .env
 .DS_Store
-.vscode
+# .vscode
 !.gitkeep
 coverage
 genTypes.d.ts
