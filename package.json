@@ -8,7 +8,7 @@
     "dev": "nodemon -L",
     "dev:container": "docker compose exec backend bash",
     "dev:c": "npm run dev:container",
-    "dev:l": "docker compose logs backend -f",
+    "dev:l": "docker compose logs backend -f -n=100",
     "test": "vitest run",
     "t": "vitest --coverage=false --reporter=default",
     "format": "biome format",
