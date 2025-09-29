@@ -50,7 +50,7 @@
   "dependencies": {
     "@adaptivestone/framework": "^5.0.0-alpha.8",
     "@adaptivestone/framework-module-email": "^1.0.1",
-    "@sentry/node": "^9.0.0"
+    "@sentry/node": "^10.15.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.6",
