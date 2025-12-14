@@ -14,7 +14,7 @@ services:
     environment:
       MONGO_DSN: mongodb://mongo/ads-framework?replicaSet=rs0
       REDIS_URI: redis://redis
-      EMAIL_HOST: mailcatcher
+      EMAIL_HOST: mail
       EMAIL_PORT: 1025
     command: "npm run docker"
 
@@ -45,10 +45,11 @@ services:
       - 6379:6379
 
   # dev to check email
-  mailcatcher:
-    image: sj26/mailcatcher
+  mail:
+    image: axllent/mailpit
     ports:
-      - 1080:1080
+      - 1025:1025
+      - 8025:8025
 
 volumes:
   mongodata:
