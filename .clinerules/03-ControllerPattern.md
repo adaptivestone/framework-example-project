@@ -180,69 +180,53 @@ async getList(
   },
   res: Response,
 ) {
-  try {
-    const Model = this.app.getModel('ModelName');
-    const { name, status } = req.appInfo.query;
-    const { skip, limit, page } = req.appInfo.pagination;
+  const Model = this.app.getModel('ModelName');
+  const { name, status } = req.appInfo.query;
+  const { skip, limit, page } = req.appInfo.pagination;
 
-    const query: any = {};
-    if (name) {
-      query.name = new RegExp(name, 'i');
-    }
-    if (status) {
-      query.status = status;
-    }
-
-    const [items, total] = await Promise.all([
-      Model.find(query).skip(skip).limit(limit),
-      Model.countDocuments(query),
-    ]);
-
-    const publicItems = await Promise.all(
-      items.map(async (item: any) => await item.getPublic())
-    );
-
-    return res.status(200).json({
-      data: publicItems,
-      total,
-      page,
-      limit,
-    });
-  } catch (error) {
-    console.error('Error fetching items:', error);
-    return res.status(500).json({
-      message: req.appInfo?.i18n?.t('common.serverError') || 'Server error',
-      data: null,
-    });
+  const query: any = {};
+  if (name) {
+    query.name = new RegExp(name, 'i');
   }
+  if (status) {
+    query.status = status;
+  }
+
+  const [items, total] = await Promise.all([
+    Model.find(query).skip(skip).limit(limit),
+    Model.countDocuments(query),
+  ]);
+
+  const publicItems = await Promise.all(
+    items.map(async (item: any) => await item.getPublic())
+  );
+
+  return res.status(200).json({
+    data: publicItems,
+    total,
+    page,
+    limit,
+  });
 }
 ```
 
 ### GET by Slug Handler
 ```typescript
 async getBySlug(req: FrameworkRequest, res: Response) {
-  try {
-    const Model = this.app.getModel('ModelName');
-    const { slug } = req.params;
+  const Model = this.app.getModel('ModelName');
+  const { slug } = req.params;
 
-    const item = await Model.findOne({ slug });
-    if (!item) {
-      return res.status(404).json({
-        message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
-        data: null,
-      });
-    }
-
-    return res.status(200).json({
-      data: await item.getPublic(),
-    });
-  } catch (error) {
-    console.error('Error fetching item:', error);
-    return res.status(500).json({
-      message: req.appInfo?.i18n?.t('common.serverError') || 'Server error',
+  const item = await Model.findOne({ slug });
+  if (!item) {
+    return res.status(404).json({
+      message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
       data: null,
     });
   }
+
+  return res.status(200).json({
+    data: await item.getPublic(),
+  });
 }
 ```
 
@@ -260,70 +244,62 @@ async create(
   },
   res: Response,
 ) {
-  try {
-    const Model = this.app.getModel('ModelName');
-    const { name, description, image } = req.appInfo.request;
+  const Model = this.app.getModel('ModelName');
+  const { name, description, image } = req.appInfo.request;
 
-    // Validation
-    const existingItem = await Model.findOne({ name: name[0] });
-    if (existingItem) {
-      return res.status(409).json({
-        message: req.appInfo.i18n?.t('model.nameExistsMessage', { name: name[0] }) || 
-                 `Item with name "${name[0]}" already exists`,
+  // Validation
+  const existingItem = await Model.findOne({ name: name[0] });
+  if (existingItem) {
+    return res.status(409).json({
+      message: req.appInfo.i18n?.t('model.nameExistsMessage', { name: name[0] }) || 
+               `Item with name "${name[0]}" already exists`,
+      errors: {
+        name: req.appInfo.i18n?.t('model.nameExists') || 'Name already exists',
+      },
+      data: null,
+    });
+  }
+
+  // Handle file upload if needed
+  let imageId = null;
+  if (image?.[0]) {
+    const FileModel = this.app.getModel('File');
+    
+    if (!image[0].mimetype?.includes('image')) {
+      return res.status(400).json({
         errors: {
-          name: req.appInfo.i18n?.t('model.nameExists') || 'Name already exists',
+          image: req.appInfo.i18n?.t('validation.fileNotImage') || 'File must be an image',
         },
         data: null,
       });
     }
 
-    // Handle file upload if needed
-    let imageId = null;
-    if (image?.[0]) {
-      const FileModel = this.app.getModel('File');
-      
-      if (!image[0].mimetype?.includes('image')) {
-        return res.status(400).json({
-          errors: {
-            image: req.appInfo.i18n?.t('validation.fileNotImage') || 'File must be an image',
-          },
-          data: null,
-        });
-      }
+    const fileMongo = await FileModel.uploadFile(
+      image[0].filepath,
+      image[0].originalFilename,
+      image[0].mimetype,
+      'folder-name',
+    );
 
-      const fileMongo = await FileModel.uploadFile(
-        image[0].filepath,
-        image[0].originalFilename,
-        image[0].mimetype,
-        'folder-name',
-      );
-
-      if (!fileMongo) {
-        return res.status(500).json({
-          message: req.appInfo.i18n?.t('common.fileUploadFailed') || 'File upload failed',
-          data: null,
-        });
-      }
-
-      imageId = fileMongo._id;
+    if (!fileMongo) {
+      return res.status(500).json({
+        message: req.appInfo.i18n?.t('common.fileUploadFailed') || 'File upload failed',
+        data: null,
+      });
     }
 
-    const newItem = await Model.create({
-      name: name[0],
-      description: description?.[0],
-      image: imageId,
-    });
-
-    return res.status(201).json({
-      data: await newItem.getPublic(),
-    });
-  } catch (error) {
-    console.error('Error creating item:', error);
-    return res.status(500).json({
-      message: req.appInfo?.i18n?.t('common.serverError') || 'Server error',
-      data: null,
-    });
+    imageId = fileMongo._id;
   }
+
+  const newItem = await Model.create({
+    name: name[0],
+    description: description?.[0],
+    image: imageId,
+  });
+
+  return res.status(201).json({
+    data: await newItem.getPublic(),
+  });
 }
 ```
 
@@ -341,98 +317,82 @@ async update(
   },
   res: Response,
 ) {
-  try {
-    const Model = this.app.getModel('ModelName');
-    const { slug } = req.params;
-    const { name, description, image } = req.appInfo.request;
+  const Model = this.app.getModel('ModelName');
+  const { slug } = req.params;
+  const { name, description, image } = req.appInfo.request;
 
-    const item = await Model.findOne({ slug });
-    if (!item) {
-      return res.status(404).json({
-        message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
-        data: null,
-      });
-    }
-
-    // Check for duplicate name if updating
-    if (name?.[0] && name[0] !== item.name) {
-      const existingItem = await Model.findOne({
-        name: name[0],
-        slug: { $ne: slug },
-      });
-
-      if (existingItem) {
-        return res.status(409).json({
-          message: req.appInfo.i18n?.t('model.nameExistsMessage', { name: name[0] }) || 
-                   `Item with name "${name[0]}" already exists`,
-          errors: {
-            name: req.appInfo.i18n?.t('model.nameExists') || 'Name already exists',
-          },
-          data: null,
-        });
-      }
-    }
-
-    // Update fields
-    const updateData: any = {};
-    if (name?.[0]) {
-      updateData.name = name[0];
-    }
-    if (description?.[0]) {
-      updateData.description = description[0];
-    }
-
-    // Handle image upload if provided
-    if (image?.[0]) {
-      // ... file upload logic similar to create
-    }
-
-    const updatedItem = await Model.findOneAndUpdate(
-      { slug },
-      updateData,
-      { new: true }
-    );
-
-    return res.status(200).json({
-      data: await updatedItem.getPublic(),
-    });
-  } catch (error) {
-    console.error('Error updating item:', error);
-    return res.status(500).json({
-      message: req.appInfo?.i18n?.t('common.serverError') || 'Server error',
+  const item = await Model.findOne({ slug });
+  if (!item) {
+    return res.status(404).json({
+      message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
       data: null,
     });
   }
+
+  // Check for duplicate name if updating
+  if (name?.[0] && name[0] !== item.name) {
+    const existingItem = await Model.findOne({
+      name: name[0],
+      slug: { $ne: slug },
+    });
+
+    if (existingItem) {
+      return res.status(409).json({
+        message: req.appInfo.i18n?.t('model.nameExistsMessage', { name: name[0] }) || 
+                 `Item with name "${name[0]}" already exists`,
+        errors: {
+          name: req.appInfo.i18n?.t('model.nameExists') || 'Name already exists',
+        },
+        data: null,
+      });
+    }
+  }
+
+  // Update fields
+  const updateData: any = {};
+  if (name?.[0]) {
+    updateData.name = name[0];
+  }
+  if (description?.[0]) {
+    updateData.description = description[0];
+  }
+
+  // Handle image upload if provided
+  if (image?.[0]) {
+    // ... file upload logic similar to create
+  }
+
+  const updatedItem = await Model.findOneAndUpdate(
+    { slug },
+    updateData,
+    { new: true }
+  );
+
+  return res.status(200).json({
+    data: await updatedItem.getPublic(),
+  });
 }
 ```
 
 ### DELETE Handler
 ```typescript
 async delete(req: FrameworkRequest, res: Response) {
-  try {
-    const Model = this.app.getModel('ModelName');
-    const { slug } = req.params;
+  const Model = this.app.getModel('ModelName');
+  const { slug } = req.params;
 
-    const item = await Model.findOne({ slug });
-    if (!item) {
-      return res.status(404).json({
-        message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
-        data: null,
-      });
-    }
-
-    await Model.findOneAndDelete({ slug });
-
-    return res.status(200).json({
-      data: null,
-    });
-  } catch (error) {
-    console.error('Error deleting item:', error);
-    return res.status(500).json({
-      message: req.appInfo?.i18n?.t('common.serverError') || 'Server error',
+  const item = await Model.findOne({ slug });
+  if (!item) {
+    return res.status(404).json({
+      message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
       data: null,
     });
   }
+
+  await Model.findOneAndDelete({ slug });
+
+  return res.status(200).json({
+    data: null,
+  });
 }
 ```
 
@@ -444,7 +404,9 @@ async delete(req: FrameworkRequest, res: Response) {
 - Include internationalization support
 
 ### 2. Error Handling
-- Always wrap handlers in try-catch blocks
+- Framework handles errors automatically (see `.clinerules/07-ErrorHandling.md`)
+- Do NOT wrap main handler logic in try-catch blocks
+- Only use try-catch for specific non-critical operations (external APIs, logging, etc.)
 - Use appropriate HTTP status codes
 - Provide meaningful error messages
 - Use field-specific errors in the `errors` object

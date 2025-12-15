@@ -24,6 +24,7 @@
     "check:types": "npm run generateTypes && tsc --noEmit",
     "check:types:raw": "tsc --noEmit",
     "openApi": "node src/cli.ts getopenapijson --output='src/public/openApi.json'",
+    "docs:download": "node scripts/download-docs.ts",
     "docker:build": "docker buildx build --platform linux/amd64,linux/arm64 -t registry.gitlab.com/adaptivestone/example-project:latest . --push"
   },
   "nodemonConfig": {

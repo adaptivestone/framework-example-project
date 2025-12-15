@@ -5,3 +5,4 @@
 !.gitkeep
 coverage
 genTypes.d.ts
+.clinerules/framework-docs.md
