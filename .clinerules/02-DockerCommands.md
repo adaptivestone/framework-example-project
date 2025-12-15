@@ -12,10 +12,17 @@ docker compose exec backend {command}
 
 ### Examples:
 
-#### TypeScript Compilation Check
+#### TypeScript Type Check
 ```bash
-docker compose exec backend npx tsc --noEmit
+docker compose exec backend npm run check:types
 ```
+
+#### Generate Types (Required after Model Changes)
+**IMPORTANT**: After creating or updating any model, you MUST regenerate types:
+```bash
+docker compose exec backend npm run generateTypes
+```
+This generates type definitions that allow `this.app.getModel('ModelName')` to work with proper types without manual casting.
 
 #### Install Dependencies
 ```bash
