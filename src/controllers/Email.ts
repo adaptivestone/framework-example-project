@@ -18,7 +18,7 @@ class Email extends AbstractController {
     // TODO error check, pass params check. This is just for testing emails, not producftion ready
     const mail = new Mailer(
       req.appInfo.app,
-      req.params.email,
+      req.params.email as string,
       req.query,
       req.appInfo.i18n,
     );
