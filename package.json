@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -L",
+    "dev": "node scripts/ensure-env.ts && nodemon -L",
     "dev:container": "docker compose exec backend bash",
     "dev:c": "npm run dev:container",
     "dev:l": "docker compose logs backend -f -n=100",
