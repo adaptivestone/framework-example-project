@@ -2,6 +2,9 @@ import Server from '@adaptivestone/framework/server.js';
 import * as Sentry from '@sentry/node';
 
 import folderConfig from './folderConfig.ts';
+// Register custom email template engines once per worker process,
+// before any request can trigger an email send.
+import './services/messaging/email/registerEngines.ts';
 
 Sentry.init({
   dsn: process.env.LOGGER_SENTRY_DSN,

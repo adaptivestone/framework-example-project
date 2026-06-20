@@ -18,7 +18,9 @@ if (existsSync(ENV_FILE)) {
 }
 
 const salt = randomBytes(64).toString('hex');
-let contents = existsSync(EXAMPLE_FILE) ? readFileSync(EXAMPLE_FILE, 'utf8') : '';
+let contents = existsSync(EXAMPLE_FILE)
+  ? readFileSync(EXAMPLE_FILE, 'utf8')
+  : '';
 
 if (/^AUTH_SALT=.*$/m.test(contents)) {
   contents = contents.replace(/^AUTH_SALT=.*$/m, `AUTH_SALT="${salt}"`);
@@ -27,4 +29,6 @@ if (/^AUTH_SALT=.*$/m.test(contents)) {
 }
 
 writeFileSync(ENV_FILE, contents);
-console.log(`Created ${ENV_FILE} from ${EXAMPLE_FILE} with a freshly generated AUTH_SALT.`);
+console.log(
+  `Created ${ENV_FILE} from ${EXAMPLE_FILE} with a freshly generated AUTH_SALT.`,
+);
