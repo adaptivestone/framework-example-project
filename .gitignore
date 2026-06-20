@@ -5,4 +5,5 @@
 !.gitkeep
 coverage
 genTypes.d.ts
+**/*.routes.gen.ts
 .clinerules/framework-docs.md

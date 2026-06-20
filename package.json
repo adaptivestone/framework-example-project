@@ -20,10 +20,10 @@
     "check:fix": "biome check --write",
     "docker": "npm i && npm run dev",
     "cli": "node src/cli.ts",
-    "generateTypes": "npm run cli generatetypes",
-    "check:types": "npm run generateTypes && tsc --noEmit",
+    "gen": "npm run cli generatetypes",
+    "generateTypes": "npm run gen",
+    "check:types": "npm run gen && tsc --noEmit",
     "check:types:raw": "tsc --noEmit",
-    "openApi": "node src/cli.ts getopenapijson --output='src/public/openApi.json'",
     "docs:download": "node scripts/download-docs.ts",
     "docker:build": "docker buildx build --platform linux/amd64,linux/arm64 -t registry.gitlab.com/adaptivestone/example-project:latest . --push"
   },
@@ -32,10 +32,11 @@
       "src/locales/**/*.json",
       "src/**/*.test.js",
       "src/**/*.test.ts",
-      "*.d.ts"
+      "*.d.ts",
+      "*.routes.gen.ts"
     ],
     "ext": "js,ts",
-    "delay": "120ms",
+    "delay": 120,
     "exec": "npm run cli generatetypes; fuser -k 9229/tcp; node --inspect=0.0.0.0 ./src/server.ts"
   },
   "repository": {
@@ -49,8 +50,8 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@adaptivestone/framework": "^5.0.0-alpha.8",
-    "@adaptivestone/framework-module-email": "^1.0.1",
+    "@adaptivestone/framework": "^5.0.1",
+    "@adaptivestone/framework-module-email": "^2.0.0",
     "@sentry/node": "^10.0.0"
   },
   "devDependencies": {
