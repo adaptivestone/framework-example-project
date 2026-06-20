@@ -32,8 +32,8 @@ jobs:
           node-version: "latest"
           cache: "npm"
 
-      - name: npm clean install
-        run: npm ci
+      - name: npm  install
+        run: npm i
 
       - name: Run Test
         run: npm test
