@@ -25,6 +25,6 @@ jobs:
           node-version: 'latest'
           cache: 'npm'
       - name: npm install
-        run: npm ci
+        run: npm i
       - name: Run Task
         run: npm run ${{ matrix.task }}

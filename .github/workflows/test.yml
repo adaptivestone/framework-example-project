@@ -4,7 +4,7 @@ name: Test
 
 on:
   push:
-    branches: ['*']
+    branches: ["*"]
 
 jobs:
   test:
@@ -19,7 +19,7 @@ jobs:
           - 6379:6379
 
     env:
-      LOGGER_CONSOLE_LEVEL: 'error'
+      LOGGER_CONSOLE_LEVEL: "error"
       REDIS_URI: redis://localhost
 
     steps:
@@ -29,8 +29,8 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 'latest'
-          cache: 'npm'
+          node-version: "latest"
+          cache: "npm"
 
       - name: npm clean install
         run: npm ci
@@ -39,12 +39,13 @@ jobs:
         run: npm test
 
       - name: Upload results to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        uses: codecov/codecov-action@v6
         with:
+          report_type: test_results
           token: ${{ secrets.CODECOV_TOKEN }}
