@@ -39,9 +39,11 @@ docker compose exec backend npm test
 docker compose exec backend npm run dev
 ```
 
-#### Database Operations
+#### Database Migrations
+Create a migration (scaffolds the file — never hand-write one), then apply pending ones. See [10-Migrations.md](./10-Migrations.md).
 ```bash
-docker compose exec backend npm run migrate
+docker compose exec backend npm run cli migration/create -- --name=someName
+docker compose exec backend npm run cli migration/migrate
 ```
 
 #### Linting

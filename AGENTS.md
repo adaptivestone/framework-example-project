@@ -18,6 +18,7 @@ build step). MongoDB + Redis backed; convention-based controllers and Mongoose m
 - `npm run check:types` — `npm run gen` then `tsc --noEmit`.
 - `npm test` / `npm run t` — vitest.
 - `npm run check` / `npm run check:fix` — Biome lint + format.
+- `npm run cli migration/create -- --name=<name>` — scaffold a migration; `npm run cli migration/migrate` — apply pending ones. **Never hand-write a migration file.** → [.clinerules/10-Migrations.md](./.clinerules/10-Migrations.md)
 - Docker: `docker compose up` (Mongo replicaset + Redis + Mailpit). Most commands run inside the `backend` container — see [.clinerules/02-DockerCommands.md](./.clinerules/02-DockerCommands.md).
 
 ## Core conventions (read before writing code)
@@ -40,8 +41,8 @@ without them. `npm run dev` generates a salt automatically; otherwise run
 
 Detailed, topic-by-topic project rules live in [`.clinerules/`](./.clinerules/) —
 response format, Docker, controller pattern, ESM, TypeScript, private fields,
-error handling, i18n. Read the relevant one before non-trivial work. Cline reads
-`.clinerules/` natively; 
+error handling, i18n, migrations. Read the relevant one before non-trivial work.
+Cline reads `.clinerules/` natively; 
 
 ## Framework documentation
 
