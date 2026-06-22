@@ -16,7 +16,17 @@ Sentry.init({
   integrations: [],
 });
 
-const server = new Server(folderConfig);
+const server = new Server({
+  ...folderConfig,
+  // Project HTTP boot hook: app-wide wiring that doesn't fit a controller —
+  // ad-hoc routes (webhooks, healthchecks, OAuth callbacks), Express middleware,
+  // or boot-time setup. `app` is inferred. Empty by default; add wiring as needed.
+  bootHttp: async (_app) => {
+    // _app.httpServer?.routeRegistry.registerRoute('POST', '/webhooks/example', {
+    //   handler: myWebhookHandler,
+    // });
+  },
+});
 
 await server.startServer();
 
