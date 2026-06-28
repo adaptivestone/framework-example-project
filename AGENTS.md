@@ -30,6 +30,7 @@ build step). MongoDB + Redis backed; convention-based controllers and Mongoose m
 - **Responses** follow the project envelope: `{ data, message?, errors?, total?/page?/limit? }`. → [.clinerules/01-ResponceType.md](./.clinerules/01-ResponceType.md)
 - **Do not** wrap handler bodies in try/catch — the framework handles errors centrally. → [.clinerules/07-ErrorHandling.md](./.clinerules/07-ErrorHandling.md)
 - **ESM only** (no CommonJS / `require`) and **i18n** for every user-facing string. → [.clinerules/04-Esm.md](./.clinerules/04-Esm.md), [.clinerules/08-Internationalization.md](./.clinerules/08-Internationalization.md)
+- **Config & env — never read `process.env` in controllers/services.** Env vars are read **only inside `src/config/<name>.ts`** files (e.g. `config/http.ts`); code consumes them via `app.getConfig('<name>')` (sync; typed by `genTypes.d.ts` after `npm run gen` — no `as` cast). This keeps config tracked in one place. Env-specific, non-secret defaults go in `config/<name>.<NODE_ENV>.ts` (e.g. `sample.production.ts`), which the framework merges over the base config when `NODE_ENV` matches — prefer this to adding more env vars; keep only **secrets** in `.env`. → framework-docs "Environment Variables" / "NODE_ENV".
 
 ## Boot requirements
 
