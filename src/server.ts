@@ -25,6 +25,16 @@ const server = new Server({
     // _app.httpServer?.routeRegistry.registerRoute('POST', '/webhooks/example', {
     //   handler: myWebhookHandler,
     // });
+    //
+    // Map error classes you don't own to HTTP responses (framework ≥ 5.1) —
+    // e.g. a Mongo duplicate-key violation as a 409 instead of a 500. Your
+    // handlers run before the built-ins; return null to pass the error on.
+    // See docs: Controllers → Error handling.
+    // _app.httpServer?.registerErrorHandler(MongoServerError, (err) =>
+    //   err.code === 11000
+    //     ? { status: 409, body: { message: 'Already exists' } }
+    //     : null,
+    // );
   },
 });
 
