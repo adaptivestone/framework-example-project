@@ -1,22 +1,22 @@
+import { describe, it, type TestContext } from 'node:test';
 import { appInstance } from '@adaptivestone/framework/helpers/appInstance.js';
-import { describe, expect, it } from 'vitest';
 
 describe('person', () => {
-  it('sample person test', async () => {
-    expect.assertions(4);
+  it('sample person test', async (t: TestContext) => {
+    t.plan(4);
     const Person = await appInstance.getModel('Person');
     const doc = await Person.create({
       firstName: 'Jon',
       lastName: 'Snow',
     });
-    expect(doc.fullName).toBe('Jon Snow');
+    t.assert.strictEqual(doc.fullName, 'Jon Snow');
 
     doc.fullName = 'Jon Stark';
-    expect(doc.firstName).toBe('Jon');
-    expect(doc.lastName).toBe('Stark');
+    t.assert.strictEqual(doc.firstName, 'Jon');
+    t.assert.strictEqual(doc.lastName, 'Stark');
 
     const doc2 = await Person.findByFullName('Jon Snow');
 
-    expect(doc2?.lastName).toBe('Snow');
+    t.assert.strictEqual(doc2?.lastName, 'Snow');
   });
 });

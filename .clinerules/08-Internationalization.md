@@ -42,6 +42,23 @@ Organize translations in logical groups within the JSON files:
 
 ## Implementation Guidelines
 
+### Validation schema messages
+
+Put translation keys directly in Standard Schema validation messages. The framework translates
+those keys with the request's locale before it serializes the 400 response; controllers must not
+catch validation failures or translate their messages a second time.
+
+```typescript
+const createUser = z.object({
+  email: z.email({ error: 'validation.emailInvalid' }),
+  password: z.string().min(8, { error: 'validation.passwordTooShort' }),
+});
+```
+
+The normal test bootstrap does not load this project's locale resources, so API tests should
+assert the raw keys and status code. Only tests specifically covering rendered copy should set
+`TEST_FOLDER_LOCALES` and assert localized text.
+
 ### Using Translations in Controllers
 
 Always use the i18n service with fallback to English:

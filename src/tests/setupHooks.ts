@@ -1,9 +1,9 @@
-import { afterAll, beforeAll } from 'vitest';
+import { after, before } from 'node:test';
 
-beforeAll(() => {
+before(() => {
   console.log('Hi. This is a before all hook');
 });
 
-afterAll(() => {
+after(() => {
   console.log('Buy!. This is a after all hook');
 });

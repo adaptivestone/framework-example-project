@@ -11,3 +11,7 @@ process.env.TEST_FOLDER_EMAILS = path.resolve(
   here,
   '../services/messaging/email/templates',
 );
+
+// Deliberately do not set TEST_FOLDER_LOCALES. Ordinary API tests assert stable
+// validation i18n keys rather than localized prose. A copy-specific suite may
+// opt in explicitly before the framework setup loads.

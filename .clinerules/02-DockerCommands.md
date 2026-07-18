@@ -34,6 +34,18 @@ docker compose exec backend npm install
 docker compose exec backend npm test
 ```
 
+Run tests in watch mode:
+```bash
+docker compose exec backend npm run t
+```
+
+Run the CI suite with coverage thresholds and LCOV output:
+```bash
+docker compose exec -T backend npm run test:ci
+```
+
+CI runs this suite on the Node.js 24 LTS line.
+
 #### Run Development Server
 ```bash
 docker compose exec backend npm run dev

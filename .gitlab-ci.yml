@@ -3,9 +3,13 @@ stages:
   - checks
   - deploy
 
+default:
+  # Keep dependency installation and execution on the same Ubuntu/Node image.
+  # Ubuntu is also required for mongodb-memory-server binary availability.
+  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
+
 install:
   stage: install
-  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
   script:
     - npm ci
   artifacts:
@@ -15,7 +19,6 @@ install:
 
 quality:
   stage: checks
-  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
   needs:
     - install
   allow_failure: true
@@ -23,29 +26,21 @@ quality:
     - npm run check
 
 tests:
+  needs:
+    - install
   services:
     - redis:latest
   variables:
     REDIS_URI: redis://redis
     EMAIL_TRANSPORT: stub
   stage: checks
-  image: registry.gitlab.com/adaptivestone/ubuntu-node:latest
-  needs:
-    - install
-  dependencies:
-    - install
   script:
-    - npm run test
-  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+    - npm run test:ci
+  coverage: '/[Aa]ll files[^|]*\|[^|]*\s+([\d\.]+)/'
   artifacts:
     when: always
     paths:
-      - coverage/rspec.xml
-    reports:
-      junit: coverage/rspec.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage/cobertura-coverage.xml
+      - coverage/lcov.info
 
 
 # deploy_production:

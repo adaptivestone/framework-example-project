@@ -4,13 +4,19 @@
   "description": "",
   "main": "src/index.ts",
   "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "dev": "node scripts/ensure-env.ts && nodemon -L",
+    "start": "node src/server.ts",
+    "start:cluster": "node src/index.ts",
     "dev:container": "docker compose exec backend bash",
     "dev:c": "npm run dev:container",
     "dev:l": "docker compose logs backend -f -n=100",
-    "test": "vitest run",
-    "t": "vitest --coverage=false --reporter=default",
+    "test": "node --import=./src/tests/setupNodeTest.ts --test --test-global-setup=./src/tests/globalSetupNodeTest.ts \"src/**/*.test.ts\"",
+    "test:ci": "node --import=./src/tests/setupNodeTest.ts --test --experimental-test-coverage --test-coverage-exclude=\"src/**/*.test.ts\" --test-coverage-exclude=\"src/tests/**\" --test-coverage-lines=80 --test-coverage-branches=80 --test-coverage-functions=75 --test-global-setup=./src/tests/globalSetupNodeTest.ts --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=coverage/lcov.info \"src/**/*.test.ts\"",
+    "t": "node --import=./src/tests/setupNodeTest.ts --test --watch --test-global-setup=./src/tests/globalSetupNodeTest.ts \"src/**/*.test.ts\"",
     "format": "biome format",
     "format:fix": "biome format --write",
     "knip": "knip",
@@ -59,11 +65,9 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.6",
     "@types/express": "^5.0.1",
-    "@vitest/coverage-v8": "^4.0.0",
     "mongodb-memory-server": "^11.0.0",
     "nodemon": "^3.0.1",
-    "typescript": "^7.0.1-rc",
-    "vitest": "^4.0.0"
+    "typescript": "^7.0.2"
   },
   "overrides": {
     "i18next": {
