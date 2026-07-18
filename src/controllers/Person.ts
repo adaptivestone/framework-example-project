@@ -1,5 +1,7 @@
 import { getAppInstance } from '@adaptivestone/framework/helpers/appInstance.js';
-import AbstractController from '@adaptivestone/framework/modules/AbstractController.js';
+import AbstractController, {
+  type TMiddleware,
+} from '@adaptivestone/framework/modules/AbstractController.js';
 import { NotFoundError } from '@adaptivestone/framework/services/http/httpErrors.js';
 import RateLimiter from '@adaptivestone/framework/services/http/middleware/RateLimiter.js';
 import type { Response } from 'express';
@@ -93,10 +95,10 @@ class Person extends AbstractController {
     return res.status(200).json(person);
   }
 
-  static get middleware() {
+  static get middleware(): Map<string, TMiddleware> {
     return new Map([
       ['/{*splat}', []],
-      ['POST/', [[RateLimiter, policy.personCreate] as const]],
+      ['POST/', [[RateLimiter, policy.personCreate]]],
     ]);
   }
 }
