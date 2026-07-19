@@ -11,7 +11,8 @@ default:
 install:
   stage: install
   script:
-    - npm ci
+    # Keep cross-platform optional dependencies resolvable after an ARM install.
+    - npm install
   artifacts:
     paths:
       - node_modules/

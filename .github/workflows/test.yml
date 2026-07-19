@@ -34,7 +34,8 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        # ARM npm can omit optional x64 peers when it rewrites package-lock.json.
+        run: npm install
 
       - name: Run Test
         run: npm run test:ci
