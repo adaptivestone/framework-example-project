@@ -14,12 +14,11 @@ import type {
   GetPersonRequest,
 } from './Person.routes.gen.ts';
 
-// Config is fully merged before controller modules load. Generated config types
-// preserve this policy name, so a typo fails `npm run check:types`.
-const { policy } = getAppInstance().getConfig('rateLimiter');
-
 class Person extends AbstractController {
   get routes() {
+    // A simple const config read before a literal return remains analyzable by
+    // route-type generation. The generated config type catches policy typos.
+    const { policy } = getAppInstance().getConfig('rateLimiter');
     return {
       get: {
         '/': {
@@ -38,6 +37,9 @@ class Person extends AbstractController {
             firstName: z.string(),
             lastName: z.string(),
           }),
+          // Route-local middleware can consume a typed, overridable config
+          // policy directly; no string lookup or duplicated options object.
+          middleware: [[RateLimiter, policy.personCreate] as const],
         },
       },
     };
@@ -96,10 +98,7 @@ class Person extends AbstractController {
   }
 
   static get middleware(): Map<string, TMiddleware> {
-    return new Map([
-      ['/{*splat}', []],
-      ['POST/', [[RateLimiter, policy.personCreate]]],
-    ]);
+    return new Map([['/{*splat}', []]]);
   }
 }
 

@@ -12,12 +12,12 @@ when building an application.
 
 | Feature | Where to look |
 |---|---|
-| Controller auto-loading and pathless route-group directories | [`src/controllers/(public)/PathlessRouteGroups.ts`](src/controllers/(public)/PathlessRouteGroups.ts) is physically grouped but serves `GET /pathlessroutegroups`; its test also proves `/(public)/pathlessroutegroups` is not public. |
-| Standard Schema validation, generated request types, Zod input coercion, and resilient OpenAPI | [`PathlessRouteGroups.ts`](src/controllers/(public)/PathlessRouteGroups.ts) uses `z.coerce.date()`; [`Person.ts`](src/controllers/Person.ts) validates a request body. `npm run gen` types both handlers and `npm run openapi` documents them. |
+| Controller auto-loading, pathless route groups, and framework overrides | [`PathlessRouteGroups.ts`](src/controllers/(public)/PathlessRouteGroups.ts) is physically grouped but serves `GET /pathlessroutegroups`; [`Auth.ts`](src/controllers/(framework)/Auth.ts) stays at `/auth` and replaces the framework controller even from inside a group. |
+| Standard Schema validation, generated request types, Zod input coercion, and resilient OpenAPI | [`PathlessRouteGroups.ts`](src/controllers/(public)/PathlessRouteGroups.ts) uses `z.coerce.date()` and Pagination; [`Person.ts`](src/controllers/Person.ts) validates a request body. `npm run gen` types both handlers and `npm run openapi` documents them, including Pagination's `page` and `limit`. |
 | Cache with memory/Redis driver portability | [`PathlessRouteGroups.ts`](src/controllers/(public)/PathlessRouteGroups.ts) uses the default memory-backed `app.cache.getSetValue()` API; selecting Redis requires no controller change. |
 | Typed HTTP errors | [`Person.ts`](src/controllers/Person.ts) throws `NotFoundError` and lets the framework render the response centrally. |
 | Authentication middleware and typed authenticated users | [`Profile.ts`](src/controllers/Profile.ts) uses `GetUserByToken` + `Auth`; generated types make `req.appInfo.user` non-null. |
-| Typed config and named rate-limit policies | [`rateLimiter.ts`](src/config/rateLimiter.ts) declares the policy consumed by [`Person.ts`](src/controllers/Person.ts). |
+| Typed config and named rate-limit policies | [`rateLimiter.ts`](src/config/rateLimiter.ts) declares the policy consumed as route-level middleware by [`Person.ts`](src/controllers/Person.ts); its simple config read before the literal route return remains codegen-safe. |
 | Model schemas, statics, instance methods, and virtuals | [`Person.ts`](src/models/Person.ts) demonstrates every model extension surface. |
 | Email module, custom template engines, and localized templates | [`Email.ts`](src/controllers/Email.ts), [`registerEngines.ts`](src/services/messaging/email/registerEngines.ts), and [`src/locales/`](src/locales/). |
 | HTTP boot hook and external observability integration | [`server.ts`](src/server.ts) keeps the typed `bootHttp` hook next to its owner, registers the live `GET /health` route, and initializes Sentry. |

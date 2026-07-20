@@ -27,6 +27,9 @@ group. Route groups are not namespaces; two controllers that collapse onto the
 same method and URL fail at boot. Use `getHttpPath()` only when the desired URL
 cannot be expressed by ordinary and grouped folders.
 
+A grouped file keeps its framework override identity: moving an `Auth.ts`
+override to `(framework)/Auth.ts` still replaces the framework `Auth` controller.
+
 **Validation is validator-agnostic** ([Standard Schema](https://standardschema.dev/)). Bring any Standard Schema validator as a route `request:` / `query:` schema — this project uses **[zod](https://zod.dev/)** (v4 / ≥3.24 implement Standard Schema natively); yup ≥1.7, valibot, and arktype work the same way. The schema's inferred output is what codegen turns into `req.appInfo.request` / `req.appInfo.query`.
 
 ## Controller Structure
@@ -49,6 +52,8 @@ import type {
 
 class YourController extends AbstractController {
   get routes() {
+    // Simple initialized const config reads are allowed before this literal
+    // return. Keep control flow and dynamically-built route shapes out of it.
     return {
       get: {
         '/': {

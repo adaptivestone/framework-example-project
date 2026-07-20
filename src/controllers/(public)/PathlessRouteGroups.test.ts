@@ -9,6 +9,7 @@ describe('pathless controller route groups', () => {
     t.assert.strictEqual(response.status, 200);
     t.assert.deepStrictEqual(await response.json(), {
       data: [{ convention: 'pathless-route-group-directories' }],
+      pagination: { page: 1, limit: 10, skip: 0 },
       filters: { changedAfter: null },
     });
 

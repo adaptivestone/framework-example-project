@@ -1,6 +1,7 @@
 import AbstractController, {
   type TMiddleware,
 } from '@adaptivestone/framework/modules/AbstractController.js';
+import Pagination from '@adaptivestone/framework/services/http/middleware/Pagination.js';
 import type { Response } from 'express';
 import { z } from 'zod';
 // Generated beside this controller by `npm run gen`. The physical pathless
@@ -13,6 +14,7 @@ class PathlessRouteGroups extends AbstractController {
       get: {
         '/': {
           handler: this.getRouteGroups,
+          middleware: [Pagination],
           // OpenAPI describes this as a date-time string while the generated
           // handler type receives the coerced Date value.
           query: z.object({ changedAfter: z.coerce.date().optional() }),
@@ -32,6 +34,7 @@ class PathlessRouteGroups extends AbstractController {
     );
     return res.status(200).json({
       data,
+      pagination: req.appInfo.pagination,
       filters: {
         changedAfter: req.appInfo.query.changedAfter?.toISOString() ?? null,
       },
