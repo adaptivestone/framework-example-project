@@ -1,9 +1,8 @@
-import { after, before } from 'node:test';
+import { before } from 'node:test';
+import { ensureTestServerReady } from '@adaptivestone/framework/tests/testHelpers.js';
 
-before(() => {
-  console.log('Hi. This is a before all hook');
-});
-
-after(() => {
-  console.log('Buy!. This is a after all hook');
+before(async () => {
+  // Root hooks from separate modules may start concurrently under node:test.
+  // Await this before any application-wide setup that uses config or models.
+  await ensureTestServerReady();
 });

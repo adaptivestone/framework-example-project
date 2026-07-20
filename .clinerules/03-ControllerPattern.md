@@ -10,6 +10,23 @@ The framework generates per-controller types. **Do not** hand-write `req: Framew
 - Type each handler with the generated request type, named after the **PascalCased handler method** + `Request` (handler `createPerson` → `CreatePersonRequest`, `getList` → `GetListRequest`): `import type { CreatePersonRequest } from './Person.routes.gen.ts'`. It already carries the typed `appInfo.request` (from the route's `request:` schema), `appInfo.query` (from `query:`), `params` (from `:slug` / `{*splat}` segments), and everything the resolved middleware chain provides (e.g. `appInfo.user`, `appInfo.pagination`).
 - `req.appInfo.app.getModel('Person')` and `app.getConfig('http')` are typed via `genTypes.d.ts` — **no `as` casts**.
 
+## Controller folders and route groups
+
+Ordinary controller folders contribute lowercased URL segments. Fully
+parenthesized folders are organizational “pathless route-group directories”
+and do not contribute URL segments:
+
+```text
+src/controllers/admin/Users.ts                     → /admin/users
+src/controllers/(public)/PathlessRouteGroups.ts   → /pathlessroutegroups
+src/controllers/(group)/admin/Settings.ts         → /admin/settings
+```
+
+Generated `*.routes.gen.ts` files remain beside their controller inside the
+group. Route groups are not namespaces; two controllers that collapse onto the
+same method and URL fail at boot. Use `getHttpPath()` only when the desired URL
+cannot be expressed by ordinary and grouped folders.
+
 **Validation is validator-agnostic** ([Standard Schema](https://standardschema.dev/)). Bring any Standard Schema validator as a route `request:` / `query:` schema — this project uses **[zod](https://zod.dev/)** (v4 / ≥3.24 implement Standard Schema natively); yup ≥1.7, valibot, and arktype work the same way. The schema's inferred output is what codegen turns into `req.appInfo.request` / `req.appInfo.query`.
 
 ## Controller Structure
@@ -173,7 +190,9 @@ request: object().shape({
 })
 ```
 
-> File uploads: `import { YupFile } from '@adaptivestone/framework/helpers/yup.js'` validates `formidable` files (`new YupFile().required()`) when you use yup.
+> File uploads: import `File` from `@adaptivestone/framework/types.js` and use
+> your validator's `instanceof` idiom, for example `z.instanceof(File)`.
+> `YupFile` is deprecated.
 
 ## Handler Method Patterns
 

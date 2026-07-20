@@ -1,5 +1,7 @@
+import type { BootHttpHook } from '@adaptivestone/framework/server.js';
 import Server from '@adaptivestone/framework/server.js';
 import * as Sentry from '@sentry/node';
+import type { Request, Response } from 'express';
 
 import folderConfig from './folderConfig.ts';
 // Register custom email template engines once per worker process,
@@ -16,28 +18,27 @@ Sentry.init({
   integrations: [],
 });
 
+// App-wide routes, webhooks, and HTTP lifecycle wiring that do not belong to
+// an auto-loaded controller can stay next to the server that owns the hook.
+const bootHttp: BootHttpHook = async (app) => {
+  if (!app.httpServer) {
+    throw new Error('HTTP server is unavailable during bootHttp');
+  }
+
+  app.httpServer.routeRegistry.registerRoute('GET', '/health', {
+    handler: (_req: Request, res: Response) =>
+      res.status(200).json({ data: { status: 'ok' } }),
+    meta: {
+      controllerClass: 'System',
+      methodName: 'health',
+      description: 'Process health check',
+    },
+  });
+};
+
 const server = new Server({
   ...folderConfig,
-  // Project HTTP boot hook: app-wide wiring that doesn't fit a controller —
-  // ad-hoc routes (webhooks, healthchecks, OAuth callbacks), Express middleware,
-  // or boot-time setup. `app` is inferred. Empty by default; add wiring as needed.
-  bootHttp: async (_app) => {
-    // _app.httpServer?.routeRegistry.registerRoute('POST', '/webhooks/example', {
-    //   handler: myWebhookHandler,
-    // });
-    //
-    // Map error classes you don't own to HTTP responses (framework ≥ 5.1) —
-    // e.g. a Mongo duplicate-key violation as a 409 instead of a 500. Your
-    // handlers run before the built-ins; return null to pass the error on.
-    // See docs: Controllers → Error handling.
-    // _app.httpServer?.registerErrorHandler(MongoServerError, (err) =>
-    //   err.code === 11000
-    //     ? { status: 409, body: { message: 'Already exists' } }
-    //     : null,
-    // );
-  },
+  bootHttp,
 });
 
 await server.startServer();
-
-// you can put any additional logic here like adding websoket, etc

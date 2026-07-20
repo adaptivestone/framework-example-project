@@ -26,6 +26,8 @@
     "check:fix": "biome check --write",
     "docker": "npm i && npm run dev",
     "cli": "node src/cli.ts",
+    "routes": "node src/cli.ts routes",
+    "openapi": "node src/cli.ts openapi --output openapi.json",
     "gen": "npm run cli generatetypes",
     "generateTypes": "npm run gen",
     "check:types": "npm run gen && tsc --noEmit",

@@ -7,4 +7,5 @@
 !/coverage/.gitkeep
 genTypes.d.ts
 **/*.routes.gen.ts
+openapi.json
 .clinerules/framework-docs.md
