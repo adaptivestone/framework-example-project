@@ -8,15 +8,22 @@ import Mailer from '@adaptivestone/framework-module-email';
 import type { TFunction } from 'i18next';
 
 export type TPerson = GetModelTypeFromClass<typeof Person>;
-export type TPersonLite = GetModelTypeLiteFromSchema<typeof Person.modelSchema>;
+type PersonAuthoringModel = GetModelTypeLiteFromSchema<
+  typeof Person.modelSchema
+>;
+type PersonAuthoringDocument = InstanceType<PersonAuthoringModel>;
 
 class Person extends BaseModel {
   static get modelSchema() {
     return {
-      firstName: String,
+      firstName: {
+        type: String,
+        required: [true, 'person.firstNameRequired'],
+      },
       lastName: String,
       email: String,
-    };
+      labels: { type: [String] },
+    } as const;
   }
 
   /**
@@ -27,7 +34,7 @@ class Person extends BaseModel {
   static get modelInstanceMethods() {
     return {
       sendCreatEmail: async function sendCreatEmail(
-        this: InstanceType<TPersonLite>,
+        this: PersonAuthoringDocument,
         i18n: { t: TFunction; language: string },
       ) {
         const mail = new Mailer(
@@ -53,7 +60,9 @@ class Person extends BaseModel {
   static get modelStatics() {
     return {
       findByFullName: async function findByFullName(
-        this: TPersonLite, // A type helper to map to the correct `this` context.
+        // Schema-derived model context avoids a circular reference while this
+        // class's custom members are still being inferred.
+        this: PersonAuthoringModel,
         fullName: string,
       ) {
         const firstSpace = fullName.indexOf(' ');
@@ -74,11 +83,11 @@ class Person extends BaseModel {
           type: String,
         } as const,
         // Getter
-        get(this: InstanceType<TPersonLite>) {
+        get(this: PersonAuthoringDocument) {
           return `${this.firstName} ${this.lastName}`;
         },
         // Setter
-        async set(this: InstanceType<TPersonLite>, v: string) {
+        async set(this: PersonAuthoringDocument, v: string) {
           const firstName = v.substring(0, v.indexOf(' '));
           const lastName = v.substring(v.indexOf(' ') + 1);
           this.set({ firstName, lastName });

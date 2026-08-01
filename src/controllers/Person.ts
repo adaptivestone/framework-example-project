@@ -39,7 +39,7 @@ class Person extends AbstractController {
           }),
           // Route-local middleware can consume a typed, overridable config
           // policy directly; no string lookup or duplicated options object.
-          middleware: [[RateLimiter, policy.personCreate] as const],
+          middleware: [[RateLimiter, policy.personCreate]],
         },
       },
     };
