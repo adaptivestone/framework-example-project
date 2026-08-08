@@ -26,6 +26,12 @@ class Person extends AbstractController {
         },
         '/:id': {
           handler: this.getPersonById,
+          // Path params are validated like the body and query string. A
+          // malformed id is rejected with a 400 before the handler runs, so
+          // 404 keeps its real meaning: the id was fine, the person isn't there.
+          params: z.object({
+            id: z.string().regex(/^[0-9a-fA-F]{24}$/, 'must be a valid id'),
+          }),
         },
       },
       post: {
@@ -53,19 +59,17 @@ class Person extends AbstractController {
     return res.status(201).json({ data: person });
   }
 
-  // GET /person/:id — demonstrates typed HTTP errors (framework ≥ 5.1).
-  // Thrown `HttpError`s resolve to their status through the error-handler
-  // registry, so any depth of business logic can end a request cleanly
-  // without threading `res` around. See docs: Controllers → Error handling.
+  // GET /person/:id — demonstrates a `params:` schema (framework ≥ 5.3) and
+  // typed HTTP errors (≥ 5.1). Thrown `HttpError`s resolve to their status
+  // through the error-handler registry, so any depth of business logic can end
+  // a request cleanly without threading `res` around.
+  // See docs: Controllers → Routes → Params, and Controllers → Error handling.
   async getPersonById(req: GetPersonByIdRequest, res: Response) {
-    const { id } = req.params;
+    // Validated and typed by the route's `params:` schema — no in-handler
+    // guard. Raw `req.params.id` is still the unvalidated string.
+    const { id } = req.appInfo.params;
     const PersonModel = req.appInfo.app.getModel('Person');
-    // Path params arrive as raw strings — guard the ObjectId shape before
-    // Mongoose, or a malformed id becomes a CastError → 500
-    // (see docs: Recipes → Validate an ObjectId).
-    const person = /^[0-9a-fA-F]{24}$/.test(id)
-      ? await PersonModel.findById(id)
-      : null;
+    const person = await PersonModel.findById(id);
     if (!person) {
       throw new NotFoundError('Person not found');
       // → 404 { "message": "Person not found" }
