@@ -255,7 +255,7 @@ async getBySlug(req: FrameworkRequest, res: Response) {
   const item = await Model.findOne({ slug });
   if (!item) {
     return res.status(404).json({
-      message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
+      message: req.appInfo?.i18n?.t('model.notFound', { defaultValue: 'Item not found' }),
       data: null,
     });
   }
@@ -287,10 +287,12 @@ async create(
   const existingItem = await Model.findOne({ name: name[0] });
   if (existingItem) {
     return res.status(409).json({
-      message: req.appInfo.i18n?.t('model.nameExistsMessage', { name: name[0] }) || 
-               `Item with name "${name[0]}" already exists`,
+      message: req.appInfo.i18n?.t('model.nameExistsMessage', {
+        name: name[0],
+        defaultValue: `Item with name "${name[0]}" already exists`,
+      }),
       errors: {
-        name: req.appInfo.i18n?.t('model.nameExists') || 'Name already exists',
+        name: req.appInfo.i18n?.t('model.nameExists', { defaultValue: 'Name already exists' }),
       },
       data: null,
     });
@@ -304,7 +306,7 @@ async create(
     if (!image[0].mimetype?.includes('image')) {
       return res.status(400).json({
         errors: {
-          image: req.appInfo.i18n?.t('validation.fileNotImage') || 'File must be an image',
+          image: req.appInfo.i18n?.t('validation.fileNotImage', { defaultValue: 'File must be an image' }),
         },
         data: null,
       });
@@ -319,7 +321,7 @@ async create(
 
     if (!fileMongo) {
       return res.status(500).json({
-        message: req.appInfo.i18n?.t('common.fileUploadFailed') || 'File upload failed',
+        message: req.appInfo.i18n?.t('common.fileUploadFailed', { defaultValue: 'File upload failed' }),
         data: null,
       });
     }
@@ -360,7 +362,7 @@ async update(
   const item = await Model.findOne({ slug });
   if (!item) {
     return res.status(404).json({
-      message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
+      message: req.appInfo?.i18n?.t('model.notFound', { defaultValue: 'Item not found' }),
       data: null,
     });
   }
@@ -374,10 +376,12 @@ async update(
 
     if (existingItem) {
       return res.status(409).json({
-        message: req.appInfo.i18n?.t('model.nameExistsMessage', { name: name[0] }) || 
-                 `Item with name "${name[0]}" already exists`,
+        message: req.appInfo.i18n?.t('model.nameExistsMessage', {
+          name: name[0],
+          defaultValue: `Item with name "${name[0]}" already exists`,
+        }),
         errors: {
-          name: req.appInfo.i18n?.t('model.nameExists') || 'Name already exists',
+          name: req.appInfo.i18n?.t('model.nameExists', { defaultValue: 'Name already exists' }),
         },
         data: null,
       });
@@ -419,7 +423,7 @@ async delete(req: FrameworkRequest, res: Response) {
   const item = await Model.findOne({ slug });
   if (!item) {
     return res.status(404).json({
-      message: req.appInfo?.i18n?.t('model.notFound') || 'Item not found',
+      message: req.appInfo?.i18n?.t('model.notFound', { defaultValue: 'Item not found' }),
       data: null,
     });
   }
@@ -467,4 +471,7 @@ async delete(req: FrameworkRequest, res: Response) {
 
 ### 7. Internationalization
 - Use `req.appInfo.i18n?.t()` for all user-facing messages
-- Provide fallback English messages
+- Carry the English text in i18next's `defaultValue` option —
+  `t('key', { defaultValue: 'English text' })`. Never `t('key') || 'English
+  text'`: a missing key makes `t()` return the truthy key string, so the `||`
+  branch is unreachable and the raw key leaks into the response.

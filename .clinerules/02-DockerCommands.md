@@ -46,6 +46,27 @@ docker compose exec -T backend npm run test:ci
 
 CI runs this suite on the Node.js 24 LTS line.
 
+#### Run Tests Under Bun
+
+The framework is certified on Bun >= 1.4 as a second runtime. The `backend-bun`
+service (compose profile `bun`) runs the same suite there. It is a `run`, not an
+`exec` — the service exists only to execute the suite and exits when it is done:
+
+```bash
+docker compose run --rm backend-bun
+```
+
+It shares the project volume with `backend`, so it reads the `node_modules` that
+`npm install` produced there, and it reuses the `mongo` service. To pass extra
+`bun test` arguments, spell the command out — an argument given to
+`docker compose run` **replaces** the service's command rather than extending it:
+
+```bash
+docker compose run --rm backend-bun bash scripts/bun-test.sh --test-name-pattern person
+```
+
+Bun never runs on the host. See [11-Testing.md](./11-Testing.md).
+
 #### Run Development Server
 ```bash
 docker compose exec backend npm run dev

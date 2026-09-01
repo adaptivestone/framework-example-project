@@ -18,6 +18,32 @@ services:
       EMAIL_PORT: 1025
     command: "npm run docker"
 
+  # Second runtime: run the test suite under Bun (framework >= 5.4 is certified
+  # on Bun >= 1.4). Node stays the primary runtime; this service exists only to
+  # prove the same sources pass on both.
+  #
+  #   docker compose run --rm backend-bun
+  #
+  # It shares the project volume, and therefore the node_modules the `backend`
+  # service installed — Bun reads the same tree. It reuses the `mongo` service
+  # instead of starting a database of its own: `bun test` has no equivalent of
+  # Node's `--test-global-setup`, so the URI is handed over through the
+  # env var the framework test bootstrap reads. `__DB_TO_REPLACE__` is the
+  # placeholder each test file swaps for its own database name.
+  backend-bun:
+    image: oven/bun:1.4
+    profiles: ["bun"]
+    volumes:
+      - ./:/var/www/
+    working_dir: /var/www
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      TEST_MONGO_URI: mongodb://mongo/__DB_TO_REPLACE__?replicaSet=rs0
+      LOGGER_CONSOLE_LEVEL: error
+    command: ["bash", "scripts/bun-test.sh"]
+
   mongo:
     image: mongo:8.2
     volumes:

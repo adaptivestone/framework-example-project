@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Bun
+
+# Bun is the SECOND supported runtime (framework >= 5.4 is certified on
+# Bun >= 1.4) — it gets its own workflow so a Bun regression reads as "Bun
+# broke" without turning the Node run red. The matrix tests the declared
+# floor and the latest stable; `fail-fast: false` so a floor break and a
+# latest break never mask each other. Locally the same suite runs through
+# Docker instead: `docker compose --profile bun run --rm backend-bun`.
+
+on:
+  push:
+    branches: ["*"]
+
+jobs:
+  test:
+    name: Bun ${{ matrix.bun }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        bun: ["1.4.0", "latest"]
+
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+
+    env:
+      LOGGER_CONSOLE_LEVEL: "error"
+      REDIS_URI: redis://localhost
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      # Node stays present: npm installs the dependency graph, and
+      # mongodb-memory-server (started by bun-test.sh when TEST_MONGO_URI is
+      # unset) downloads a mongod binary for the runner's Ubuntu.
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: "npm"
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ matrix.bun }}
+
+      - name: Install dependencies
+        # ARM npm can omit optional x64 peers when it rewrites package-lock.json.
+        run: npm install
+
+      - name: Run tests under Bun
+        run: bash scripts/bun-test.sh

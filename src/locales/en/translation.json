@@ -4,6 +4,11 @@
     "emailProvided": "Email must be provided",
     "errorUPValid": "User not valid"
   },
+  "middleware": {
+    "auth": {
+      "notLoggedIn": "Please sign in to continue"
+    }
+  },
   "validation": {
     "required": "Value must be provided",
     "incorrect": "Invalid value provided",
@@ -11,7 +16,7 @@
   },
   "email": {
     "changed": "Email changed",
-    "greeating": "Dear user",
+    "greeting": "Dear user",
     "footer": "Sincerely Yours",
     "emailSupport": "Support email",
     "passwordChanged": "Password changed",

@@ -4,6 +4,11 @@
     "emailProvided": "Нужно указать Email",
     "errorUPValid": "Пользователь неверен"
   },
+  "middleware": {
+    "auth": {
+      "notLoggedIn": "Пожалуйста, войдите в систему, чтобы продолжить"
+    }
+  },
   "validation": {
     "required": "Значение должен быть в запросе",
     "incorrect": "Предоставлено неверное значение",
@@ -11,7 +16,7 @@
   },
   "email": {
     "changed": "Email изменен",
-    "greeating": "Здравствуйте, пользователь",
+    "greeting": "Здравствуйте, пользователь",
     "footer": "С Уважением",
     "emailSupport": "Поддержка по email",
     "passwordChanged": "Пароль был изменен",

@@ -12,6 +12,9 @@ process.env.TEST_FOLDER_EMAILS = path.resolve(
   '../services/messaging/email/templates',
 );
 
-// Deliberately do not set TEST_FOLDER_LOCALES. Ordinary API tests assert stable
-// validation i18n keys rather than localized prose. A copy-specific suite may
-// opt in explicitly before the framework setup loads.
+// Deliberately do not set TEST_FOLDER_LOCALES, so ordinary API tests assert
+// stable values rather than localized prose. Two different stable values since
+// framework 5.4: this project's own schema-message keys (`validation.*`) have no
+// in-code default and still surface as raw keys, while framework-emitted
+// messages carry their English text as a `defaultValue` and render as English.
+// A copy-specific suite may opt in explicitly before the framework setup loads.

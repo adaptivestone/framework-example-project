@@ -102,8 +102,14 @@ Project follows a standardized response type for all API endpoints.
 
 ## Internationalization Guidelines
 
-- All error messages should use `req.appInfo.i18n.t()` with fallback to English
-- Example: `req.appInfo.i18n.t('validation.required') || 'Field is required'`
+- All user-facing messages go through `req.appInfo.i18n?.t()`, and the English
+  text belongs in i18next's own `defaultValue` option — **never behind `||`**.
+  A missing key makes `t()` return the key *itself*, which is a truthy string,
+  so `t('x') || 'fallback'` never reaches the fallback: it answers with the raw
+  `x`. `defaultValue` is what actually renders English on a miss.
+- Example: `req.appInfo.i18n?.t('validation.required', { defaultValue: 'Field is required' })`
+- A key present in `src/locales/<lng>/translation.json` still wins over the
+  default, so translations keep working unchanged.
 - Field-specific errors should be placed in the `errors` object, not in `message`
 
 ## Important Rules:
@@ -120,16 +126,19 @@ Project follows a standardized response type for all API endpoints.
 // File validation error
 return res.status(400).json({
   errors: {
-    image: req.appInfo.i18n?.t('validation.fileNotImage') || 'File must be an image'
+    image: req.appInfo.i18n?.t('validation.fileNotImage', { defaultValue: 'File must be an image' })
   },
   data: null
 });
 
 // Brand name duplicate error
 return res.status(409).json({
-  message: req.appInfo.i18n?.t('carBrand.brandNameExistsMessage', { brandName }) || `Brand "${brandName}" already exists`,
+  message: req.appInfo.i18n?.t('carBrand.brandNameExistsMessage', {
+    brandName,
+    defaultValue: `Brand "${brandName}" already exists`,
+  }),
   errors: {
-    brandName: req.appInfo.i18n?.t('carBrand.brandNameExists') || 'Brand name already exists'
+    brandName: req.appInfo.i18n?.t('carBrand.brandNameExists', { defaultValue: 'Brand name already exists' })
   },
   data: null
 });
