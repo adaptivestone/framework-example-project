@@ -4,8 +4,8 @@ import type {
   GetModelTypeLiteFromSchema,
 } from '@adaptivestone/framework/modules/BaseModel.js';
 import { BaseModel } from '@adaptivestone/framework/modules/BaseModel.js';
+import type { TI18n } from '@adaptivestone/framework/services/i18n/types.js';
 import Mailer from '@adaptivestone/framework-module-email';
-import type { TFunction } from 'i18next';
 
 export type TPerson = GetModelTypeFromClass<typeof Person>;
 type PersonAuthoringModel = GetModelTypeLiteFromSchema<
@@ -35,7 +35,7 @@ class Person extends BaseModel {
     return {
       sendCreatEmail: async function sendCreatEmail(
         this: PersonAuthoringDocument,
-        i18n: { t: TFunction; language: string },
+        i18n: TI18n,
       ) {
         const mail = new Mailer(
           appInstance,

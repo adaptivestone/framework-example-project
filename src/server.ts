@@ -15,6 +15,24 @@ Sentry.init({
   tracesSampleRate: 1.0,
   environment: process.env.NODE_ENV,
   integrations: [],
+  // Sentry 11 collects request bodies, headers, cookies, query strings and
+  // stack-frame variables by default — here that includes passwords and
+  // bearer tokens. This keeps the v10 privacy level; relax it deliberately.
+  dataCollection: {
+    userInfo: false,
+    cookies: false,
+    httpHeaders: {
+      request: { deny: ['forwarded', '-ip', 'remote-', 'via', '-user'] },
+      response: { deny: ['forwarded', '-ip', 'remote-', 'via', '-user'] },
+    },
+    httpBodies: [],
+    urlQueryParams: { deny: ['forwarded', '-ip', 'remote-', 'via', '-user'] },
+    genAI: { inputs: false, outputs: false },
+    databaseQueryData: false,
+    queues: false,
+    graphQL: { document: false, variables: false },
+    stackFrameVariables: false,
+  },
 });
 
 const server = new Server({
