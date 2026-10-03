@@ -28,7 +28,7 @@ file's relevant `describe()`.
 
 App-wide HTTP wiring lives in [`src/bootHttp.ts`](../src/bootHttp.ts), and the
 test server gets the same hook the production server does — otherwise routes
-registered there (here, `GET /health`) are simply absent under test and nothing
+registered there (here, `POST /webhooks/example`) are simply absent under test and nothing
 reports the difference. `src/tests/configureServer.ts` is the whole pattern:
 
 ```ts

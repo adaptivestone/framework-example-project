@@ -124,18 +124,42 @@ async getMyAuctionsList(req: FrameworkRequest, res: Response) {
 4. **Log appropriately** but let framework handle HTTP responses
 5. **Use proper error types** when throwing custom errors
 
+## Throwing HTTP Errors
+
+To answer with an error status from a handler, a service or a middleware, throw
+instead of building the response:
+
+```typescript
+import { NotFoundError } from '@adaptivestone/framework/services/http/httpErrors.js';
+
+throw new NotFoundError({
+  code: 'PERSON_NOT_FOUND', // clients branch on this; never translated
+  i18nKey: 'person.notFound', // translates `message` per request
+  message: 'Person not found', // English text and the log line
+});
+```
+
+Field errors go in `errors`:
+`throw new ConflictError({ message: 'Brand already exists', errors: { brandName: 'Brand name already exists' } })`.
+Classes: `BadRequestError`, `UnauthorizedError`, `ForbiddenError`,
+`NotFoundError`, `ConflictError`, or `new HttpError(status, details)` for any
+other status. Thrown errors are logged at `verbose`, not as failures.
+
 ## Framework Error Response Format
 
-The framework automatically returns errors in the project's standard format:
+Every error the framework answers (request validation, thrown `HttpError`s,
+the built-in middleware, the 404 and 500 fallbacks) follows one contract:
 
 ```json
 {
-  "message": "Error description",
-  "data": null,
+  "error": "PERSON_NOT_FOUND",
+  "message": "Person not found",
   "errors": {
-    "fieldName": "Field-specific error"
+    "fieldName": ["Field-specific error"]
   }
 }
 ```
 
-This ensures consistency across all endpoints without manual error handling in controllers.
+`message` is always present; `error` (a machine-readable code) and `errors`
+(an array of messages per field) are optional. This keeps every endpoint
+consistent without manual error handling in controllers.

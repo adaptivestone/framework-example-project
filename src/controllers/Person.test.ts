@@ -22,10 +22,14 @@ describe('GET /person/:id', () => {
   });
 
   it('returns 404 for a well-formed id that does not exist', async (t: TestContext) => {
-    t.plan(1);
+    t.plan(2);
     const res = await fetch(
       getTestServerURL('/person/507f1f77bcf86cd799439011'),
     );
     t.assert.strictEqual(res.status, 404);
+    t.assert.deepStrictEqual(await res.json(), {
+      error: 'PERSON_NOT_FOUND',
+      message: 'Person not found',
+    });
   });
 });

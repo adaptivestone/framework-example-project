@@ -22,5 +22,8 @@
     "passwordChanged": "Пароль был изменен",
     "passwordRecovery": "Восстановление пароля",
     "emailConfirm": "Подтверждение Email"
+  },
+  "person": {
+    "notFound": "Человек не найден"
   }
 }

@@ -1,5 +1,5 @@
 // Declares this project's `Server` options for the test server, so the app-wide
-// HTTP wiring `bootHttp` performs in production — the `GET /health` route — is
+// HTTP wiring `bootHttp` performs in production — the example webhook route — is
 // present under test too, instead of silently missing.
 //
 // Ordering rule: `configureTestServer()` must run before the framework setup
