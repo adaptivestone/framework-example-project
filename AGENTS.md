@@ -14,7 +14,7 @@ step. MongoDB + Redis backed; convention-based controllers and Mongoose models.
 
 ## Commands
 
-- `npm run dev` — generate types + start the watch server (auto-fills `AUTH_SALT`).
+- `npm run dev` — create `.env` with a fresh `AUTH_SALT` if missing (`npm run cli createEnv`) + start the watch server.
 - `npm run gen` — regenerate `*.routes.gen.ts` + `genTypes.d.ts`. Run after changing a `routes` getter, a model, or config.
 - `npm run check:types` — `npm run gen` then `tsc --noEmit`.
 - `npm run routes` — print the resolved route tree; `npm run openapi` — write the OpenAPI 3.1 contract to gitignored `openapi.json`.
@@ -44,8 +44,8 @@ step. MongoDB + Redis backed; convention-based controllers and Mongoose models.
 ## Boot requirements
 
 MongoDB (`MONGO_DSN`) and `AUTH_SALT` are **required** — the server fails fast
-without them. `npm run dev` generates a salt automatically; otherwise run
-`npm run cli generateRandomBytes`.
+without them. `npm run dev` runs `npm run cli createEnv`, which copies
+`.env.example` to `.env` with a fresh salt and never overwrites an existing `.env`.
 
 ## Rules
 

@@ -71,8 +71,13 @@ class Person extends AbstractController {
     const PersonModel = req.appInfo.app.getModel('Person');
     const person = await PersonModel.findById(id);
     if (!person) {
-      throw new NotFoundError('Person not found');
-      // → 404 { "message": "Person not found" }
+      throw new NotFoundError({
+        code: 'PERSON_NOT_FOUND',
+        i18nKey: 'person.notFound',
+        message: 'Person not found',
+      });
+      // → 404 { "error": "PERSON_NOT_FOUND", "message": "Person not found" }
+      // `message` is the English text; `i18nKey` translates it per request.
     }
     return res.status(200).json({ data: person });
   }

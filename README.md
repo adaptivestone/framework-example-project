@@ -23,10 +23,11 @@ when building an application.
 | Email module, custom template engines, and localized templates | [`Email.ts`](src/controllers/Email.ts), [`registerEngines.ts`](src/services/messaging/email/registerEngines.ts), and [`src/locales/`](src/locales/). |
 | Overriding and translating framework messages | [`src/locales/`](src/locales/) define `middleware.auth.notLoggedIn`, so the auth 401 answers with this project's wording — and its Russian translation — instead of the framework's built-in English. See [Translating framework messages](#translating-framework-messages). |
 | Bun as a second runtime | the `backend-bun` compose service runs the whole suite under Bun ≥ 1.4 via [`scripts/bun-test.sh`](scripts/bun-test.sh); [`setupBunTest.ts`](src/tests/setupBunTest.ts) is the one Bun-specific line of test glue. |
-| HTTP boot hook, tested, and external observability integration | [`bootHttp.ts`](src/bootHttp.ts) holds the typed `bootHttp` hook that registers the live `GET /health` route; [`server.ts`](src/server.ts) passes it to the production server and initializes Sentry, while [`configureServer.ts`](src/tests/configureServer.ts) passes the same hook to the test server through `configureTestServer`, so [`bootHttp.test.ts`](src/bootHttp.test.ts) covers `/health`. |
+| HTTP boot hook, tested, and external observability integration | [`bootHttp.ts`](src/bootHttp.ts) holds the typed `bootHttp` hook that registers an example webhook route (`POST /webhooks/example`); [`server.ts`](src/server.ts) passes it to the production server and initializes Sentry, while [`configureServer.ts`](src/tests/configureServer.ts) passes the same hook to the test server through `configureTestServer`, so [`bootHttp.test.ts`](src/bootHttp.test.ts) covers the webhook. |
+| Health checks | Built into the framework, no route needed: `GET /health/live` answers while the process serves requests, and `GET /health/ready` also pings MongoDB and answers 503 when it fails. |
 | Single-process and clustered deployment | [`server.ts`](src/server.ts) is supervisor-friendly; [`index.ts`](src/index.ts) uses the public `runCluster()` helper. |
 | Framework-aware testing | [`src/tests/`](src/tests/) integrates Node's test runner with the framework lifecycle; [`setupHooks.ts`](src/tests/setupHooks.ts) shows safe server readiness, and controller/model tests are colocated. |
-| Operational CLI | [`src/cli.ts`](src/cli.ts) propagates command failures through the process exit code; `npm run routes`, `npm run openapi`, `npm run gen`, and `npm run cli migration/create -- --name=<name>` expose routing, API contracts, generated types, and migrations. |
+| Operational CLI | [`src/cli.ts`](src/cli.ts) propagates command failures through the process exit code; `npm run dev` first runs `npm run cli createEnv`, so a fresh clone gets a `.env` with its own `AUTH_SALT`; `npm run routes`, `npm run openapi`, `npm run gen`, and `npm run cli migration/create -- --name=<name>` expose routing, API contracts, generated types, and migrations. |
 
 ## Runtime support
 
@@ -57,7 +58,7 @@ docker compose exec -T backend npm run test:ci
 - App-wide HTTP wiring is tested, not just deployed:
   [`src/tests/configureServer.ts`](src/tests/configureServer.ts) declares the
   test server's options with `configureTestServer({ bootHttp })`, so the
-  `GET /health` route the hook registers answers under test exactly as in
+  webhook route the hook registers answers under test exactly as in
   production. The call has to happen before the framework preload boots the
   server, which is why [`setupNodeTest.ts`](src/tests/setupNodeTest.ts) imports
   that module first.
@@ -118,6 +119,16 @@ Without the key the framework would answer with its own default,
 `Please login to application`. The request locale comes from the `X-Lang`
 header, the `?lng=` query parameter, or the authenticated user's `locale` —
 not from `Accept-Language`.
+
+Your own errors work the same way. [`Person.ts`](src/controllers/Person.ts)
+throws `NotFoundError({ code, i18nKey, message })`: the code is for clients to
+branch on, `message` is the English text, and `person.notFound` in
+`src/locales/ru` translates it:
+
+```console
+$ curl -s -H 'X-Lang: ru' localhost:3300/person/507f1f77bcf86cd799439011
+{"error":"PERSON_NOT_FOUND","message":"Человек не найден"}
+```
 
 The translation engine itself is **this project's** dependency: framework 5.4
 made `i18next` and `i18next-fs-backend` optional peers, so any app that ships

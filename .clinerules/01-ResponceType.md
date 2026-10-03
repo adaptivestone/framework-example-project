@@ -6,11 +6,12 @@ Project follows a standardized response type for all API endpoints.
 
 ```json
 {
+	"error": "OPTIONAL_CODE", // errors only: machine-readable code
 	"message": "Optional message. Error message on errors",
-	"data": [ {} ], // can be object or array of objects
+	"data": [ {} ], // success only: object or array of objects
 	"errors": { // optional in case of provided fields error
-		"fieldName": "error description for field",
-		"anotherField": "another field error"
+		"fieldName": ["error description for field"],
+		"anotherField": ["another field error"]
 	},
 	"total": 400, //in case of pagination request should return total count 
 	"page": 1,  //in case of pagination
@@ -20,9 +21,10 @@ Project follows a standardized response type for all API endpoints.
 
 ## When to use each field:
 
+- **error**: Machine-readable error code clients branch on (never translated)
 - **message**: General error messages, system errors, or descriptive messages
-- **errors**: Field-specific validation errors (maps field names to error messages)
-- **data**: The actual response data (null for errors, object/array for success)
+- **errors**: Field-specific validation errors (maps field names to arrays of messages)
+- **data**: The actual response data (success responses only)
 - **total, page, limit**: Only for paginated responses
  
 
@@ -57,21 +59,20 @@ Project follows a standardized response type for all API endpoints.
 
 ```json
 {
+  "message": "Validation failed",
   "errors": {
-    "email": "Email is required",
-    "password": "Password must be at least 8 characters"
-  },
-  "data": null
+    "email": ["Email is required"],
+    "password": ["Password must be at least 8 characters"]
+  }
 }
-
 ```
 
 ### General errors
 
 ```json
 {
-  "message": "Resource not found",
-  "data": null
+  "error": "PERSON_NOT_FOUND",
+  "message": "Person not found"
 }
 ```
 
@@ -81,13 +82,11 @@ Project follows a standardized response type for all API endpoints.
 
 ```json
 {
-  "message": "Validation failed",
+  "message": "Brand already exists",
   "errors": {
-    "brandName": "Brand name already exists"
-  },
-  "data": null
+    "brandName": ["Brand name already exists"]
+  }
 }
-
 ```
 
 
@@ -118,27 +117,24 @@ Project follows a standardized response type for all API endpoints.
 2. **General errors** (like "resource not found", "server error") should go in the `message` field
 3. **Pagination fields** (total, page, limit) should only be included when the endpoint uses pagination middleware
 4. **Success responses** should only include `data` field (and pagination fields if applicable)
-5. **Error responses** should always include `data: null`
+5. **Error responses**: the framework's own errors (validation, thrown `HttpError`s, built-in middleware) answer `{ error?, message, errors? }` with no `data`. Prefer throwing an `HttpError` (see `07-ErrorHandling.md`) to building an error body by hand
 
 ## Field-Specific Error Examples:
 
 ```javascript
-// File validation error
-return res.status(400).json({
-  errors: {
-    image: req.appInfo.i18n?.t('validation.fileNotImage', { defaultValue: 'File must be an image' })
-  },
-  data: null
+import { BadRequestError, ConflictError } from '@adaptivestone/framework/services/http/httpErrors.js';
+
+// File validation error → 400 { message, errors: { image: [...] } }
+throw new BadRequestError({
+  message: 'Invalid file',
+  errors: { image: 'File must be an image' },
 });
 
-// Brand name duplicate error
-return res.status(409).json({
-  message: req.appInfo.i18n?.t('carBrand.brandNameExistsMessage', {
-    brandName,
-    defaultValue: `Brand "${brandName}" already exists`,
-  }),
-  errors: {
-    brandName: req.appInfo.i18n?.t('carBrand.brandNameExists', { defaultValue: 'Brand name already exists' })
-  },
-  data: null
+// Brand name duplicate error → 409 { error, message, errors: { brandName: [...] } }
+throw new ConflictError({
+  code: 'BRAND_EXISTS',
+  i18nKey: 'carBrand.exists', // translated as-is: no interpolation values
+  message: 'Brand already exists',
+  errors: { brandName: 'Brand name already exists' },
 });
+```
