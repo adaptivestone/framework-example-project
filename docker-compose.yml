@@ -53,12 +53,12 @@ services:
       - 27017:27017
     entrypoint:
       [
-        '/usr/bin/mongod',
-        '--bind_ip_all',
-        '--wiredTigerCacheSizeGB',
-        '1',
-        '--replSet',
-        'rs0'
+        "/usr/bin/mongod",
+        "--bind_ip_all",
+        "--wiredTigerCacheSizeGB",
+        "1",
+        "--replSet",
+        "rs0",
       ]
     healthcheck:
       test: test $$(mongosh --quiet --eval "try {rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]})} catch(e) {rs.status().ok}") -eq 1

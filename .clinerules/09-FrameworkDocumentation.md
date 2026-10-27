@@ -12,6 +12,7 @@ The framework documentation is stored at `.clinerules/framework-docs.md`.
 
 1. **First, check if `.clinerules/framework-docs.md` exists**
 2. **If the file does NOT exist**, inform the user to download it:
+
    ```bash
    npm run docs:download
    ```

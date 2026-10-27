@@ -5,13 +5,14 @@ This project uses JavaScript private fields syntax (`#`) instead of TypeScript `
 ## Use JavaScript Private Fields
 
 ### Correct Usage
+
 ```typescript
 class MyClass {
   #privateField: string = 'private';
   #privateMethod(): void {
     // private method implementation
   }
-  
+
   public publicMethod(): void {
     this.#privateMethod();
     console.log(this.#privateField);
@@ -20,10 +21,12 @@ class MyClass {
 ```
 
 ### Incorrect Usage
+
 ```typescript
 class MyClass {
   private privateField: string = 'private'; // ❌ Don't use TypeScript private
-  private privateMethod(): void {           // ❌ Don't use TypeScript private
+  private privateMethod(): void {
+    // ❌ Don't use TypeScript private
     // private method implementation
   }
 }
@@ -46,15 +49,16 @@ class MyClass {
 ## Examples
 
 ### Private Properties
+
 ```typescript
 class DataProcessor {
   #data: any[] = [];
   #isProcessing: boolean = false;
-  
+
   addData(item: any): void {
     this.#data.push(item);
   }
-  
+
   process(): void {
     if (this.#isProcessing) return;
     this.#isProcessing = true;
@@ -65,22 +69,23 @@ class DataProcessor {
 ```
 
 ### Private Methods
+
 ```typescript
 class ApiClient {
   #baseUrl: string;
-  
+
   constructor(baseUrl: string) {
     this.#baseUrl = baseUrl;
   }
-  
+
   #buildUrl(endpoint: string): string {
     return `${this.#baseUrl}/${endpoint}`;
   }
-  
+
   #handleError(error: any): void {
     console.error('API Error:', error);
   }
-  
+
   async get(endpoint: string): Promise<any> {
     try {
       const url = this.#buildUrl(endpoint);

@@ -26,11 +26,12 @@ Project follows a standardized response type for all API endpoints.
 - **errors**: Field-specific validation errors (maps field names to arrays of messages)
 - **data**: The actual response data (success responses only)
 - **total, page, limit**: Only for paginated responses
- 
+
 
 ## Examples:
 
 ### Success Response (Single Item)
+
 ```json
 {
   "data": {
@@ -45,10 +46,7 @@ Project follows a standardized response type for all API endpoints.
 
 ```json
 {
-  "data": [
-    {"id": "1", "name": "Toyota"},
-    {"id": "2", "name": "Honda"}
-  ],
+  "data": [{ "id": "1", "name": "Toyota" }, { "id": "2", "name": "Honda" }],
   "total": 150,
   "page": 1,
   "limit": 30
@@ -79,7 +77,6 @@ Project follows a standardized response type for all API endpoints.
 
 ### Combined Error (with both message and field errors)
 
-
 ```json
 {
   "message": "Brand already exists",
@@ -103,7 +100,7 @@ Project follows a standardized response type for all API endpoints.
 
 - All user-facing messages go through `req.appInfo.i18n?.t()`, and the English
   text belongs in i18next's own `defaultValue` option — **never behind `||`**.
-  A missing key makes `t()` return the key *itself*, which is a truthy string,
+  A missing key makes `t()` return the key _itself_, which is a truthy string,
   so `t('x') || 'fallback'` never reaches the fallback: it answers with the raw
   `x`. `defaultValue` is what actually renders English on a miss.
 - Example: `req.appInfo.i18n?.t('validation.required', { defaultValue: 'Field is required' })`
@@ -122,7 +119,10 @@ Project follows a standardized response type for all API endpoints.
 ## Field-Specific Error Examples:
 
 ```javascript
-import { BadRequestError, ConflictError } from '@adaptivestone/framework/services/http/httpErrors.js';
+import {
+  BadRequestError,
+  ConflictError,
+} from '@adaptivestone/framework/services/http/httpErrors.js';
 
 // File validation error → 400 { message, errors: { image: [...] } }
 throw new BadRequestError({

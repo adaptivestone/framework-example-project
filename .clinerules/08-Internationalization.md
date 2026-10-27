@@ -1,6 +1,6 @@
 # Internationalization (i18n) Standard
 
-This project supports multiple languages  and requires proper internationalization for all user-facing strings.
+This project supports multiple languages and requires proper internationalization for all user-facing strings.
 
 ## The engine is this project's dependency, not the framework's
 
@@ -16,9 +16,10 @@ That is a silently English application, which is not what this project wants.
 ## Translation Requirements
 
 ### Mandatory Translation Rule
+
 **IMPORTANT**: Whenever you add any new user-facing string (error messages, validation messages, success messages, etc.), you MUST add translations for all supported languages:
 
- (`src/locales/#{locale}/translation.json`)
+(`src/locales/#{locale}/translation.json`)
 
 ### What Requires Translation
 
@@ -85,7 +86,7 @@ and assert localized text.
 
 Always go through the i18n service, and put the English text in i18next's
 `defaultValue` option. **Never** write `t('key') || 'English text'`: on a miss
-`t()` returns the key *itself*, a truthy string, so the `||` branch is
+`t()` returns the key _itself_, a truthy string, so the `||` branch is
 unreachable and the raw key ships to the client.
 
 ```typescript
@@ -121,7 +122,7 @@ Use descriptive, hierarchical keys:
 
 Framework 5.4 emits every one of its own messages as `t(key, { defaultValue })`
 with the current English text as the default. Nothing is added to the
-framework's locale files — the in-code default *is* the English source of truth
+framework's locale files — the in-code default _is_ the English source of truth
 — and **a key present in this project's locales always wins**. So translating or
 rewording a built-in message needs nothing but the key in
 `src/locales/<lng>/translation.json`.
@@ -204,6 +205,7 @@ Before submitting any code with user-facing strings:
 ## Common Translation Categories
 
 ### Validation Messages
+
 - `validation.required`
 - `validation.invalid`
 - `validation.tooShort`
@@ -211,18 +213,21 @@ Before submitting any code with user-facing strings:
 - `validation.mustMatch`
 
 ### Authentication
+
 - `auth.loginSuccess`
 - `auth.loginFailed`
 - `auth.invalidCredentials`
 - `auth.sessionExpired`
 
 ### General Errors
+
 - `common.serverError`
 - `common.notFound`
 - `common.accessDenied`
 - `common.operationFailed`
 
 ### Success Messages
+
 - `common.success`
 - `common.created`
 - `common.updated`
