@@ -58,7 +58,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@adaptivestone/framework": "^5.5.0",
+    "@adaptivestone/framework": "^5.6.0",
     "@adaptivestone/framework-module-email": "^2.1.0",
     "@sentry/node": "^11.2.0",
     "i18next": "^26.0.1",
@@ -70,7 +70,7 @@
     "@types/express": "^5.0.1",
     "mongodb-memory-server": "^11.0.0",
     "nodemon": "^3.0.1",
-    "oxc-parser": "^0.152.0",
+    "oxc-parser": "^0.156.0",
     "typescript": "^7.0.2"
   },
   "overrides": {
