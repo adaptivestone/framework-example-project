@@ -13,6 +13,7 @@ The Adaptive Stone framework automatically wraps controller methods and handles 
 ## Controller Error Handling Rules
 
 ### ❌ Don't Wrap Entire Controller Methods
+
 ```typescript
 async getMyList(req: FrameworkRequest, res: Response) {
   try {
@@ -27,6 +28,7 @@ async getMyList(req: FrameworkRequest, res: Response) {
 ```
 
 ### ✅ Let Framework Handle Errors
+
 ```typescript
 async getMyList(req: FrameworkRequest, res: Response) {
   // Framework will catch and handle any errors automatically
@@ -36,6 +38,7 @@ async getMyList(req: FrameworkRequest, res: Response) {
 ```
 
 ### ✅ Use Try-Catch Only for Specific Cases
+
 ```typescript
 async updateUserProfile(req: FrameworkRequest, res: Response) {
   const user = await User.findById(req.params.id);
@@ -57,12 +60,14 @@ async updateUserProfile(req: FrameworkRequest, res: Response) {
 ## When to Use Try-Catch
 
 ### ✅ Acceptable Use Cases:
+
 1. **Non-critical operations** that shouldn't fail the main request
 2. **External API calls** where you want to continue on failure
 3. **Cleanup operations** that might fail but shouldn't affect the response
 4. **Logging operations** that are supplementary to the main logic
 
 ### ❌ Don't Use For:
+
 1. **Main controller logic** - let framework handle these errors
 2. **Database operations** - framework converts these to proper HTTP responses
 3. **Validation errors** - framework handles these automatically
@@ -71,6 +76,7 @@ async updateUserProfile(req: FrameworkRequest, res: Response) {
 ## Examples
 
 ### ✅ Good: Non-critical operation
+
 ```typescript
 async createListing(req: FrameworkRequest, res: Response) {
   const listing = await ListingModel.create(req.appInfo.request);
@@ -87,6 +93,7 @@ async createListing(req: FrameworkRequest, res: Response) {
 ```
 
 ### ✅ Good: External service call
+
 ```typescript
 async processPayment(req: FrameworkRequest, res: Response) {
   const order = await OrderModel.create(req.appInfo.request);
@@ -103,6 +110,7 @@ async processPayment(req: FrameworkRequest, res: Response) {
 ```
 
 ### ❌ Bad: Wrapping main logic
+
 ```typescript
 async getMyAuctionsList(req: FrameworkRequest, res: Response) {
   try {

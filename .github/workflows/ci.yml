@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        task: [check, 'check:types', routes, openapi]
+        task: [check, "check:types", routes, openapi]
 
     steps:
       - uses: actions/checkout@v6
@@ -22,8 +22,8 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
-          node-version: '24'
-          cache: 'npm'
+          node-version: "24"
+          cache: "npm"
       - name: npm install
         run: npm i
       - name: Run Task

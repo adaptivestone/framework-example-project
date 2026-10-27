@@ -107,12 +107,14 @@ export default YourController;
 ## Route Definition Rules
 
 ### HTTP Methods
+
 - `get`: For retrieving data
 - `post`: For creating new resources
 - `put`: For updating existing resources
 - `delete`: For deleting resources
 
 ### Route Structure
+
 ```typescript
 get: {
   '/path': {
@@ -135,6 +137,7 @@ post: {
 ### Common Middleware
 
 #### Pagination
+
 ```typescript
 import Pagination from '@adaptivestone/framework/services/http/middleware/Pagination.js';
 
@@ -152,14 +155,16 @@ async getList(
 ```
 
 #### Role-based Access Control
+
 ```typescript
 import RoleMiddleware from '@adaptivestone/framework/services/http/middleware/Role.js';
 
 // In routes
-middleware: [[RoleMiddleware, { roles: ['admin'] }]]
+middleware: [[RoleMiddleware, { roles: ['admin'] }]];
 ```
 
 #### Authentication
+
 ```typescript
 import Auth from '@adaptivestone/framework/services/http/middleware/Auth.js';
 import GetUserByToken from '@adaptivestone/framework/services/http/middleware/GetUserByToken.js';
@@ -175,16 +180,18 @@ static get middleware() {
 Any [Standard Schema](https://standardschema.dev/) validator works as a route `query:` / `request:` schema. The `<Output>` you declare is what codegen turns into `req.appInfo.query` / `req.appInfo.request`.
 
 ### Default — zod
+
 ```typescript
 import { z } from 'zod';
 
 query: z.object({
   status: z.string().optional(),
   tags: z.array(z.string()).optional(),
-})
+});
 ```
 
 ### Other validators (yup / valibot / arktype)
+
 Any Standard Schema validator works the same way — pick one and import it. Yup is the framework's traditional choice (yup ≥1.7 implements Standard Schema):
 ```typescript
 import { object, string, array } from 'yup';
@@ -192,7 +199,7 @@ import { object, string, array } from 'yup';
 request: object().shape({
   name: string().required(),
   tags: array().of(string()),
-})
+});
 ```
 
 > File uploads: import `File` from `@adaptivestone/framework/types.js` and use
@@ -204,6 +211,7 @@ request: object().shape({
 > The signatures below predate codegen and hand-write the `appInfo` shape for illustration. In real controllers, type each handler with the generated `…Request` type (PascalCased handler name) from `./<Controller>.routes.gen.ts` (see the Basic Template) instead of `FrameworkRequest & { appInfo: { ... } }` — the generated type already includes `pagination`, `query`, `request`, `params`, and `user`.
 
 ### Basic GET Handler
+
 ```typescript
 async getList(
   req: FrameworkRequest & PaginationMiddlewareAppInfo & {
@@ -247,6 +255,7 @@ async getList(
 ```
 
 ### GET by Slug Handler
+
 ```typescript
 async getBySlug(req: FrameworkRequest, res: Response) {
   const Model = this.app.getModel('ModelName');
@@ -267,6 +276,7 @@ async getBySlug(req: FrameworkRequest, res: Response) {
 ```
 
 ### POST (Create) Handler
+
 ```typescript
 async create(
   req: FrameworkRequest & {
@@ -342,6 +352,7 @@ async create(
 ```
 
 ### PUT (Update) Handler
+
 ```typescript
 async update(
   req: FrameworkRequest & {
@@ -415,6 +426,7 @@ async update(
 ```
 
 ### DELETE Handler
+
 ```typescript
 async delete(req: FrameworkRequest, res: Response) {
   const Model = this.app.getModel('ModelName');
@@ -439,11 +451,13 @@ async delete(req: FrameworkRequest, res: Response) {
 ## Important Rules
 
 ### 1. Response Format
+
 - Always follow the project's response format (see `.clinerules/01-ResponceType.md`)
 - Use proper HTTP status codes
 - Include internationalization support
 
 ### 2. Error Handling
+
 - Framework handles errors automatically (see `.clinerules/07-ErrorHandling.md`)
 - Do NOT wrap main handler logic in try-catch blocks
 - Only use try-catch for specific non-critical operations (external APIs, logging, etc.)
@@ -452,24 +466,29 @@ async delete(req: FrameworkRequest, res: Response) {
 - Use field-specific errors in the `errors` object
 
 ### 3. Model Access
+
 - Use `this.app.getModel('ModelName')` to access models
 - Always call `getPublic()` on model instances before returning
 
 ### 4. Validation
+
 - Use Yup schemas for request/query validation
 - Validate file uploads properly
 - Check for duplicates before creating/updating
 
 ### 5. Pagination
+
 - Use `Pagination` middleware for list endpoints
 - Always return `total`, `page`, and `limit` for paginated responses
 
 ### 6. File Uploads
+
 - Validate file types and presence
 - Use `FileModel.uploadFile()` for file handling
 - Store file references in the database
 
 ### 7. Internationalization
+
 - Use `req.appInfo.i18n?.t()` for all user-facing messages
 - Carry the English text in i18next's `defaultValue` option —
   `t('key', { defaultValue: 'English text' })`. Never `t('key') || 'English
