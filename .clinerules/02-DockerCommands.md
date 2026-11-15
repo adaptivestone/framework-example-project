@@ -7,6 +7,7 @@ This project runs inside Docker containers. All commands must be executed within
 ### Backend Commands
 
 For any backend-related commands (TypeScript, Node.js, npm, etc.), use:
+
 ```bash
 docker compose exec backend {command}
 ```
@@ -22,6 +23,7 @@ docker compose exec backend npm run check:types
 #### Generate Types (Required after Model Changes)
 
 **IMPORTANT**: After creating or updating any model, you MUST regenerate types:
+
 ```bash
 docker compose exec backend npm run generateTypes
 ```
@@ -40,11 +42,13 @@ docker compose exec backend npm test
 ```
 
 Run tests in watch mode:
+
 ```bash
 docker compose exec backend npm run t
 ```
 
 Run the CI suite with coverage thresholds and LCOV output:
+
 ```bash
 docker compose exec -T backend npm run test:ci
 ```
@@ -81,6 +85,7 @@ docker compose exec backend npm run dev
 #### Database Migrations
 
 Create a migration (scaffolds the file — never hand-write one), then apply pending ones. See [10-Migrations.md](./10-Migrations.md).
+
 ```bash
 docker compose exec backend npm run cli migration/create -- --name=someName
 docker compose exec backend npm run cli migration/migrate
@@ -108,6 +113,7 @@ docker compose exec backend npm run build
 ## Container Status Check
 
 To check if containers are running:
+
 ```bash
 docker compose ps
 ```
@@ -115,6 +121,7 @@ docker compose ps
 ## Starting Containers
 
 If containers are not running:
+
 ```bash
 docker compose up 
 ```
@@ -122,6 +129,7 @@ docker compose up
 ## Accessing Container Shell
 
 For interactive debugging:
+
 ```bash
 docker compose exec backend bash
 ```
@@ -129,6 +137,7 @@ docker compose exec backend bash
 ## Database Access
 
 If database operations are needed:
+
 ```bash
 docker compose exec mongo mongosh
 ```

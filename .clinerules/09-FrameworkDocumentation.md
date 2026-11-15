@@ -27,6 +27,7 @@ npm run docs:download
 ```
 
 This script:
+
 - Downloads documentation from `https://framework.adaptivestone.com/llm-context.md`
 - Saves it to `.clinerules/framework-docs.md`
 - The file is git-ignored and must be downloaded locally
@@ -34,6 +35,7 @@ This script:
 ## When to Use Documentation
 
 **Always consult the local documentation file when:**
+
 - Implementing controllers, models, or services
 - Working with middleware
 - Creating CLI commands
@@ -52,6 +54,7 @@ This script:
 ## Fallback
 
 If documentation is not available locally and cannot be downloaded, refer to:
+
 - Online documentation: https://framework.adaptivestone.com/docs/intro
 - Existing project code patterns
 - Framework source code in `node_modules/@adaptivestone/framework`

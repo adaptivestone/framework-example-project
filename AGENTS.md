@@ -8,7 +8,7 @@ topic-by-topic rules live in [`.clinerules/`](./.clinerules/) and are linked bel
 ## Project
 
 A backend built on [`@adaptivestone/framework`](https://framework.adaptivestone.com/)
-v5 (currently `^5.4.0`): TypeScript-first, ESM-only, runs `.ts` sources natively
+v5 (currently `^5.6.1`): TypeScript-first, ESM-only, runs `.ts` sources natively
 on **Node ≥ 24** — or **Bun ≥ 1.4**, the certified second runtime — with no build
 step. MongoDB + Redis backed; convention-based controllers and Mongoose models.
 
