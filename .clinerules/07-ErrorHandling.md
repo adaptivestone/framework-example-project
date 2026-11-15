@@ -5,6 +5,7 @@ This project uses framework-level error handling. Controllers should not wrap th
 ## Framework Error Handling
 
 The Adaptive Stone framework automatically wraps controller methods and handles errors appropriately, including:
+
 - Converting errors to proper HTTP responses
 - Logging errors with proper context
 - Returning standardized error responses

@@ -27,7 +27,6 @@ Project follows a standardized response type for all API endpoints.
 - **data**: The actual response data (success responses only)
 - **total, page, limit**: Only for paginated responses
 
-
 ## Examples:
 
 ### Success Response (Single Item)
@@ -40,7 +39,6 @@ Project follows a standardized response type for all API endpoints.
   }
 }
 ```
-
 
 ### Success Response (Paginated List)
 
@@ -74,7 +72,6 @@ Project follows a standardized response type for all API endpoints.
 }
 ```
 
-
 ### Combined Error (with both message and field errors)
 
 ```json
@@ -85,7 +82,6 @@ Project follows a standardized response type for all API endpoints.
   }
 }
 ```
-
 
 ## HTTP Status Code Guidelines
 

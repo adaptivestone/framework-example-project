@@ -193,6 +193,7 @@ query: z.object({
 ### Other validators (yup / valibot / arktype)
 
 Any Standard Schema validator works the same way — pick one and import it. Yup is the framework's traditional choice (yup ≥1.7 implements Standard Schema):
+
 ```typescript
 import { object, string, array } from 'yup';
 

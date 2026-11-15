@@ -117,7 +117,6 @@ Use descriptive, hierarchical keys:
 - `user.profileUpdated` - for user profile success messages
 - `listing.notFound` - for listing-specific errors
 
-
 ## Overriding framework messages
 
 Framework 5.4 emits every one of its own messages as `t(key, { defaultValue })`
@@ -179,8 +178,6 @@ translators.
 2. **Add translation keys** to both language files
 3. **Use i18n service** in your code with proper fallbacks
 4. **Test with both languages** to ensure translations work
-
-
 
 ## Important Rules
 
