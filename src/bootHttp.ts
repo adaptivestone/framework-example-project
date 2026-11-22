@@ -1,5 +1,5 @@
 import type { BootHttpHook } from '@adaptivestone/framework/server.js';
-import type { Request, Response } from 'express';
+import { HttpResponse } from '@adaptivestone/framework/services/http/responses.js';
 
 /**
  * App-wide routes, webhooks, and HTTP lifecycle wiring that do not belong to an
@@ -18,10 +18,10 @@ const bootHttp: BootHttpHook = async (app) => {
   // Verify the provider's signature before trusting the payload; compare
   // secrets with `timingSafeEqualStrings` from
   // `@adaptivestone/framework/helpers/crypto.js`. Health checks need no route
-  // here: the framework serves `/health/live` and `/health/ready`.
+  // here: the framework serves `/health/live` and `/health/ready`. Like a
+  // controller handler, an ad-hoc handler returns its response.
   app.httpServer.routeRegistry.registerRoute('POST', '/webhooks/example', {
-    handler: (_req: Request, res: Response) =>
-      res.status(202).json({ data: { received: true } }),
+    handler: () => HttpResponse.json(202, { data: { received: true } }),
     meta: {
       controllerClass: 'System',
       methodName: 'exampleWebhook',
