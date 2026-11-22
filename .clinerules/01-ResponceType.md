@@ -55,6 +55,7 @@ Project follows a standardized response type for all API endpoints.
 
 ```json
 {
+  "error": "VALIDATION_FAILED",
   "message": "Validation failed",
   "errors": {
     "email": ["Email is required"],

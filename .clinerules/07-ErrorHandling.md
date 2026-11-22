@@ -152,7 +152,8 @@ Field errors go in `errors`:
 `throw new ConflictError({ message: 'Brand already exists', errors: { brandName: 'Brand name already exists' } })`.
 Classes: `BadRequestError`, `UnauthorizedError`, `ForbiddenError`,
 `NotFoundError`, `ConflictError`, or `new HttpError(status, details)` for any
-other status. Thrown errors are logged at `verbose`, not as failures.
+other status. Thrown errors are logged at `verbose`, not as failures; a 5xx
+`HttpError` is logged at `error`.
 
 ## Framework Error Response Format
 

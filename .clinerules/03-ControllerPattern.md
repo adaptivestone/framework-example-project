@@ -203,8 +203,10 @@ request: object().shape({
 });
 ```
 
-> File uploads: import `File` from `@adaptivestone/framework/types.js` and use
-> your validator's `instanceof` idiom, for example `z.instanceof(File)`.
+> File uploads: import `File` from `@adaptivestone/framework/types.js`. A file
+> field always arrives as an array, so check the array as a whole (a bare
+> `z.instanceof(File)` rejects every upload), for example
+> `z.custom<File[]>((v) => Array.isArray(v) && v.every((f) => f instanceof File), 'not a file')`.
 > `YupFile` is deprecated.
 
 ## Handler Method Patterns
