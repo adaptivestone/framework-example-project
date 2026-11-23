@@ -88,7 +88,7 @@ class Person extends AbstractController {
   async getPerson(req: GetPersonRequest) {
     // `getModel('Person')` is typed via the generated `genTypes.d.ts` — no cast.
     const PersonModel = req.appInfo.app.getModel('Person');
-    let person = await PersonModel.findOne({ lastName: 'Show' });
+    let person = await PersonModel.findOne({ lastName: 'Snow' });
 
     if (!person) {
       // just for demo

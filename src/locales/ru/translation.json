@@ -21,7 +21,8 @@
     "emailSupport": "Поддержка по email",
     "passwordChanged": "Пароль был изменен",
     "passwordRecovery": "Восстановление пароля",
-    "emailConfirm": "Подтверждение Email"
+    "emailConfirm": "Подтверждение Email",
+    "deliveryFailed": "Не удалось отправить письмо"
   },
   "person": {
     "notFound": "Человек не найден"
