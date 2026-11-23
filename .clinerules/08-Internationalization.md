@@ -91,19 +91,22 @@ unreachable and the raw key ships to the client.
 
 ```typescript
 // ❌ Don't hardcode strings
-return res.status(400).json({
+throw new BadRequestError({
+  message: 'Invalid password',
   errors: {
-    password: "Password is too short"
+    password: 'Password is too short',
   },
-  data: null
 });
 
 // ✅ Use i18n with an in-code English default
-return res.status(400).json({
+throw new BadRequestError({
+  i18nKey: 'validation.invalidPassword', // translates `message`, the English default
+  message: 'Invalid password',
   errors: {
-    password: req.appInfo.i18n?.t('validation.passwordTooShort', { defaultValue: 'Password must be at least 6 characters long' })
+    password: req.appInfo.i18n.t('validation.passwordTooShort', {
+      defaultValue: 'Password must be at least 6 characters long',
+    }),
   },
-  data: null
 });
 ```
 

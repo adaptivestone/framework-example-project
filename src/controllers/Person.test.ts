@@ -3,9 +3,36 @@ import { getTestServerURL } from '@adaptivestone/framework/tests/testHelpers.js'
 
 describe('create', () => {
   it('creates a person', async (t: TestContext) => {
-    t.plan(1);
-    const { status } = await fetch(getTestServerURL('/person'));
-    t.assert.strictEqual(status, 200);
+    t.plan(2);
+    const res = await fetch(getTestServerURL('/person'));
+    const body = await res.json();
+    t.assert.strictEqual(res.status, 200);
+    t.assert.strictEqual(body.data.lastName, 'Snow');
+  });
+});
+
+// Both handlers return `HttpResponse.json(status, body)`: the status and the
+// `{ data }` envelope a client sees are exactly what the handler returned.
+describe('POST /person → GET /person/:id', () => {
+  it('creates a person with 201 and reads the same document back with 200', async (t: TestContext) => {
+    t.plan(4);
+    const created = await fetch(getTestServerURL('/person'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstName: 'Arya', lastName: 'Stark' }),
+    });
+    const createdBody = await created.json();
+    t.assert.strictEqual(created.status, 201);
+    t.assert.deepStrictEqual(
+      [createdBody.data.firstName, createdBody.data.lastName],
+      ['Arya', 'Stark'],
+    );
+
+    const fetched = await fetch(
+      getTestServerURL(`/person/${createdBody.data._id}`),
+    );
+    t.assert.strictEqual(fetched.status, 200);
+    t.assert.deepStrictEqual(await fetched.json(), createdBody);
   });
 });
 

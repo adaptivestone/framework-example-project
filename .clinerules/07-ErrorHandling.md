@@ -2,6 +2,8 @@
 
 This project uses framework-level error handling. Controllers should not wrap their main logic in try-catch blocks unless handling specific, expected errors.
 
+A handler **returns** its success response (`return HttpResponse.json(200, { data })`, framework ≥ 5.7) and **throws** its errors (see [Throwing HTTP Errors](#throwing-http-errors)). It never returns an error body.
+
 ## Framework Error Handling
 
 The Adaptive Stone framework automatically wraps controller methods and handles errors appropriately, including:
@@ -16,14 +18,14 @@ The Adaptive Stone framework automatically wraps controller methods and handles 
 ### ❌ Don't Wrap Entire Controller Methods
 
 ```typescript
-async getMyList(req: FrameworkRequest, res: Response) {
+async getMyList(req: FrameworkRequest) {
   try {
     // Don't wrap the entire method logic
     const data = await Model.find();
-    return res.json({ data });
+    return HttpResponse.json(200, { data });
   } catch (error) {
-    // Framework already handles this
-    return res.status(500).json({ message: 'Server error' });
+    // Framework already handles this: an uncaught error is answered with a 500
+    throw new InternalServerError('Server error');
   }
 }
 ```
@@ -31,17 +33,17 @@ async getMyList(req: FrameworkRequest, res: Response) {
 ### ✅ Let Framework Handle Errors
 
 ```typescript
-async getMyList(req: FrameworkRequest, res: Response) {
+async getMyList(req: FrameworkRequest) {
   // Framework will catch and handle any errors automatically
   const data = await Model.find();
-  return res.json({ data });
+  return HttpResponse.json(200, { data });
 }
 ```
 
 ### ✅ Use Try-Catch Only for Specific Cases
 
 ```typescript
-async updateUserProfile(req: FrameworkRequest, res: Response) {
+async updateUserProfile(req: FrameworkRequest) {
   const user = await User.findById(req.params.id);
   
   // Only use try-catch for non-critical operations that shouldn't fail the request
@@ -54,7 +56,7 @@ async updateUserProfile(req: FrameworkRequest, res: Response) {
     }
   }
   
-  return res.json({ data: user });
+  return HttpResponse.json(200, { data: user });
 }
 ```
 
@@ -79,7 +81,7 @@ async updateUserProfile(req: FrameworkRequest, res: Response) {
 ### ✅ Good: Non-critical operation
 
 ```typescript
-async createListing(req: FrameworkRequest, res: Response) {
+async createListing(req: FrameworkRequest) {
   const listing = await ListingModel.create(req.appInfo.request);
   
   // Non-critical: update user stats
@@ -89,14 +91,14 @@ async createListing(req: FrameworkRequest, res: Response) {
     console.error('Failed to update user stats:', error);
   }
   
-  return res.status(201).json({ data: listing });
+  return HttpResponse.json(201, { data: listing });
 }
 ```
 
 ### ✅ Good: External service call
 
 ```typescript
-async processPayment(req: FrameworkRequest, res: Response) {
+async processPayment(req: FrameworkRequest) {
   const order = await OrderModel.create(req.appInfo.request);
   
   // External service that might be down
@@ -106,21 +108,21 @@ async processPayment(req: FrameworkRequest, res: Response) {
     console.error('Analytics service unavailable:', error);
   }
   
-  return res.status(201).json({ data: order });
+  return HttpResponse.json(201, { data: order });
 }
 ```
 
 ### ❌ Bad: Wrapping main logic
 
 ```typescript
-async getMyAuctionsList(req: FrameworkRequest, res: Response) {
+async getMyAuctionsList(req: FrameworkRequest) {
   try {
     // Don't wrap the main controller logic
     const listings = await ListingModel.aggregate(pipeline);
-    return res.json({ data: listings });
+    return HttpResponse.json(200, { data: listings });
   } catch (error) {
     // Framework handles this better
-    return res.status(500).json({ message: 'Server error' });
+    throw new InternalServerError('Server error');
   }
 }
 ```
